@@ -1,0 +1,52 @@
+<ion-view view-title="News And Promotion">
+    <ion-content ng-class="{expanded:$scope.isExpanded}" style="background: url(img/login.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+		
+		<div class="row row-center" style="background: rgba(0, 0, 0, 0.3)">
+			<div class = "col  light-text"><i class="material-icons light-text big-icon">&#xE8F6;</i></div>
+		   <div class = "col col-30 light-text"><H4 class="light-text">Discount<BR/>Voucher</H4></div>
+		   <div class = "col col-50 light-text">
+			<button class="button button-full button-small" ui-sref="app.listsurveyform" >Redeem</button>
+			<button class="button button-full button-small" ui-sref="app.listvoucher" >Obtained</button>
+		   </div>
+		</div>
+	<div class="list card" ng-repeat="item in news" ui-sref="app.newsContent({key: '{{item.keyString}}'})" >
+		<div class="item item-avatar">
+			<img src="img/192zk35qq2.jpg">
+			<h2>Kasemrad Sriburin Hospital</h2>
+			<p>{{item.date}}</p>
+		  </div>
+
+		  <div class="item item-body">
+			<img class="new-image" src='{{urlprefix}}/getFileContent?blobkey={{item.photo}}' >
+			<p>
+		   {{item.caption}}
+			</p>
+		</div>
+	</div>
+	<div class="list card" ng-repeat="item in promotion" ui-sref="app.promotionContent({key: '{{item.keyString}}'})" >
+		  <div class="item item-avatar">
+			<img src="img/192zk35qq2.jpg">
+			<h2>Kasemrad Sriburin Hospital</h2>
+			<p>{{item.date}}</p>
+		  </div>
+
+		  <div class="item item-body">
+			<img class="new-image" src='{{urlprefix}}/getFileContent?blobkey={{item.photo}}' >
+			<p>
+		   {{item.caption}}
+			</p>
+		</div>
+	</div>
+
+
+</div>
+		
+
+  
+
+		
+		
+		
+		
+    </ion-content>
+</ion-view>

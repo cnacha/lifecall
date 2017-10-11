@@ -1,0 +1,56 @@
+<ion-view view-title="Life Call" hide-nav-bar="true">
+	<ion-content ng-class="{expanded:$scope.isExpanded}" style="background: url(img/bg-106.jpg) center; background-size: cover;vertical-align: middle;">
+		<div class="im-wrapper">
+			<h1 class="pretty-thai-text padding-left light-text shadow-text">Life <small class="yellow-text">Call</small></h1>
+			<h3 class="pretty-thai-text padding-left dark-text">จัดการและบริหารงานบริการ</h3>
+					
+			
+			<div class="row">
+				<div class="col col-center col-50 center-text">
+					<div class="row">
+						<div class="col center-text pretty-thai-text light-text">
+							<ng-gauge size="100" type="full" thick="5" min="0" max="150" value="entityCounts.patient" cap="round" label=""  foreground-color="rgba(116,193,191, 0.8)" background-color="rgba(255,255,255, 0.5)" append="" ></ng-gauge>
+							<h5 class="pretty-thai-text light-text">จำนวนคนไข้</h5>
+						</div>
+					</div>
+					<div class="row padding-top">	
+						<div class="col center-text pretty-thai-text light-text">
+						<BR/>
+							<ng-gauge size="100" type="full" thick="5" min="0" max="150" value="entityCounts.caregiver" cap="round" label=""  foreground-color="rgba(116,193,191, 0.8)" background-color="rgba(255,255,255, 0.5)" append="" ></ng-gauge>
+							<h5 class="pretty-thai-text light-text">จำนวนผู้ดูแล</h5>
+						</div>
+					</div>
+					<div class="row padding-top">	
+						<div class="col center-text pretty-thai-text light-text">
+						<BR/>
+							<ng-gauge size="100" type="full" thick="5" min="0" max="150" value="entityCounts.emcenter" cap="round" label=""  foreground-color="rgba(116,193,191, 0.8)" background-color="rgba(255,255,255, 0.5)" append="" ></ng-gauge>
+							<h5 class="pretty-thai-text light-text">จำนวนศูนย์บริการฉุกเฉิน</h5>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="">
+						<h3 class="pretty-thai-text light-text shadow-text">จำนวนคำขอบริการตามสถานะ</h3>
+						<div style="height:180px;width:180px;" >
+						<canvas id="doughnut"  class="chart chart-doughnut"
+						  chart-data="statusData" chart-labels="statusLabels">
+						  
+						</canvas> <BR/><BR/>
+						</div>
+					</div>
+					
+					<div class="list padding-top">
+						<BR><h3 class="pretty-thai-text light-text  shadow-text padding-top">คำขอบริการล่าสุด</h3>
+						<a class="item item-avatar" ng-repeat="emrequest in latester">
+							<img  ng-if="emrequest.patient.photoFilePath !=null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
+							<img  ng-if="emrequest.patient.photoFilePath ==null" src="img/person.png">
+							<h2 class="pretty-thai-text">{{emrequest.patient.firstname}} {{emrequest.patient.lastname}}</h2>
+							<p><small class="pretty-thai-text">{{statusTH(emrequest.status)}}</small></p>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</ion-content>
+</ion-view>

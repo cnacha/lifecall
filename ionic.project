@@ -1,0 +1,11 @@
+{
+  "name": "smartcare",
+  "app_id": "f891b68c",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
+}

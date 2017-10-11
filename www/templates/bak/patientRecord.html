@@ -1,0 +1,72 @@
+<ion-view view-title="Patient Record">
+    <ion-content ng-class="{expanded:isExpanded}">
+	<div  class="im-wrapper">
+		<form name="myForm" class="list" novalidate>
+			<h3 class="pretty-thai-text"><i class="icon ion-user larger"></i> ข้อมูลคนไข้</h3> 
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">ชื่อ</span>
+                    <input type="text" class="pretty-thai-text" placeholder="ชื่อ" name="firstname" ng-model="patientRecord.firstname" disabled>
+             </label>
+			  <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">นามสกุล</span>
+                    <input type="text" class="pretty-thai-text" placeholder="นามสกุล" name="lastname" ng-model="patientRecord.lastname" disabled>
+             </label>
+			 <label class="item item-input item-select pretty-thai-text">
+					 <span class="input-label pretty-thai-text">เพศ</span>
+					 <select class="pretty-thai-text" ng-model="patientRecord.gender" ng-required="true">
+                        <option class="pretty-thai-text" value="Male">ชาย</option>
+                        <option class="pretty-thai-text" value="Female">หญิง</option>
+                    </select>
+             </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">รหัสคนไข้</span>
+                    <input type="text" class="pretty-thai-text" placeholder="รหัสคนไข้" name="codeHN" ng-model="patientRecord.codeHN" ng-required="true">
+			 </label>
+			 <h3 class="pretty-thai-text"><i class="icon ion-ios-medkit larger"></i> ข้อมูลร่างกาย</h3> 
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">น้ำหนัก</span>
+                    <input type="text" class="pretty-thai-text" placeholder="น้ำหนัก" name="bodyWeight" ng-model="vitalSignRecord.measures.bodyWeight" ng-required="true">
+			 </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">ส่วนสูง</span>
+                    <input type="text" class="pretty-thai-text" placeholder="ส่วนสูง" name="bodyHeight" ng-model="vitalSignRecord.measures.bodyHeight" ng-required="true">
+			 </label>
+			 <h3 class="pretty-thai-text"><i class="icon ion-ios-medkit larger"></i> ข้อมูลโลหิต</h3> 
+			<label class="item item-input item-select pretty-thai-text">
+					 <span class="input-label pretty-thai-text">หมู่โลหิต</span>
+					 <select class="pretty-thai-text" ng-model="patientRecord.bloodGroup" ng-required="true">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>O</option>
+                        <option>AB</option>
+                    </select>
+             </label>
+			 <label class="item item-input item-select pretty-thai-text">
+					 <span class="input-label pretty-thai-text">อาร์เอช (RH)</span>
+					 <select class="pretty-thai-text" ng-model="patientRecord.bloodRH" ng-required="true">
+                        <option>+</option>
+                        <option>-</option>
+                    </select>
+             </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">ความดัน (Systolic)</span>
+                    <input type="number" class="pretty-thai-text" placeholder="ความดัน (Systolic)" name="bpSystolic" ng-model="vitalSignRecord.measures.bpSystolic" >
+			 </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">ความดัน (Diastolic)</span>
+                    <input type="number" class="pretty-thai-text" placeholder="ความดัน (Diastolic)" name="bpDiastolic" ng-model="vitalSignRecord.measures.bpDiastolic">
+			 </label>
+			  <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">อัตราการเต้นหัวใจ(Pulse Rate)</span>
+                    <input type="number" class="pretty-thai-text" placeholder="อัตราการเต้นหัวใจ(Pulse Rate)" name="pulseRate" ng-model="vitalSignRecord.measures.pulseRate">
+			 </label>
+			 <button class="button pretty-thai-text button-full button-violet ink" ng-disabled="myForm.$invalid" ng-click="submit()" >
+					บันทึก
+             </button>
+			 <button class=" button login-button pretty-thai-text button-full button-light ink"  ui-sref="app.home" >
+					ยกเลิก
+             </button>
+		</form>
+        </div>
+    </ion-content>
+</ion-view>

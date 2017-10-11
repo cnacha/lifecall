@@ -1,0 +1,28 @@
+ <ion-modal-view>
+        <ion-header-bar align-title="center" class="bar-dark">
+			<button class="button button-clear button-icon ion-close" ng-click="closeModal();"></button>
+            <h1 class="title">{{multipleSelect.title}}</h1>
+            <button class="button button-clear button-icon ion-checkmark" ng-click="saveOptions();"></button>
+		
+	  </ion-header-bar>
+        <ion-content scroll="true">
+            <ul class="list">
+                <div class="list" ng-repeat="option in multipleSelect.tempOptions" ng-if="!multipleSelect.renderCheckbox">
+                    
+                    <label class="item item-radio">
+                        <input type="radio" name="group" ng-model="selected" ng-click="onSelectRadio(option[multipleSelect.keyProperty])" value="{{option[multipleSelect.keyProperty]}}">
+                        <div class="item-content pretty-thai-text">
+                        {{ option[multipleSelect.valueProperty] }}
+						</div>
+						<i class="radio-icon ion-checkmark"></i>
+                    </label>
+                </div>
+                <li class="item item-checkbox" ng-repeat="option in multipleSelect.tempOptions" ng-if="multipleSelect.renderCheckbox">
+                   <label class="checkbox pretty-thai-text">
+                     <input type="checkbox" ng-model="option[multipleSelect.selectedProperty]">
+                   </label>
+                   {{ option[multipleSelect.valueProperty] }}
+                </li>
+            </ul>
+        </ion-content>
+    </ion-modal-view>

@@ -1,0 +1,22 @@
+<ion-view view-title="News And Promotion">
+    <ion-content ng-class="{expanded:$scope.isExpanded}" style="background-color: #f1e6d4">
+		<div class="list card"> 
+
+		  <div class="item item-avatar">
+			<img src="img/192zk35qq2.jpg">
+			<h2>Kasemrad Sriburin Hospital</h2>
+			<p>{{news.date}}</p>
+		  </div>
+
+		  <div class="item item-body">
+			<img class="new-image" src='{{urlprefix}}/getFileContent?blobkey={{news.photo}}' >
+			<p class="pretty-thai-text">
+			{{news.description}}
+			</p>
+		   
+		  </div>
+
+		</div>
+
+    </ion-content>
+</ion-view>

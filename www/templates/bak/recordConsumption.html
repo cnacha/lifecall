@@ -1,0 +1,73 @@
+<ion-view view-title="Record Consumption">
+    <ion-content ng-class="{expanded:isExpanded}">
+	<div  class="im-wrapper">
+		<form ng-hide="hideSearch == 'true'" name="searchForm" class="list" novalidate >
+			<div class="list">
+				<label class="item item-input item-floating-label">
+						<span class="input-label pretty-thai-text">Search Food - ค้นหาเมนุอาหาร</span>
+						<input type="text" class="pretty-thai-text" name="keyword" placeholder="Keyword - คำค้นหา" ng-model="keyword" required>
+				 </label>
+				</div>
+
+		<div class="row">
+			<button class="col button button-full pretty-thai-text pretty-thai-text button-stable ink" ui-sref="app.consumption" >
+						กลับ
+             </button>
+			<button class="col button button-full pretty-thai-text pretty-thai-text button-violet ink" ng-click="searchFood(keyword)" ng-disabled="searchForm.$invalid" >
+						ค้นหา
+             </button>
+		</div>
+		</form>
+		<div ng-show="selectFood == 'true'">
+		    <h4 class="pretty-thai-text">ผลลัพธ์การค้นหา</h4>
+          <span ng-show="resultList.length == 0">No Food Matching for {{keyword}} </span>
+          <div class="list" ng-repeat="item in resultList">
+
+              <button ng-click="newRecord(item)" class="button item pretty-thai-text button-block icon-right button-stable ion-android-create">{{item.name}}</button>
+          <!--    <div class="col col-10 col-center" ><button id="menu-food" ng-click="newRecord(item)" class="button button-fab button-shade4 icon ion-plus"></button></div>
+              <div class="col col-center">{{item.name}}</div>
+          -->
+
+          </div>
+		</div>
+  <div>
+  <div ng-show="recordFood == 'true'" class="stable-bg">
+		<form name="myForm" class="list" novalidate>
+      <div class="row">
+        <div class="col dark-text pretty-thai-text" align="center">ปริมาณแคลอรี่<BR/><ng-gauge size="85" type="full" thick="7" min="0" max="5000" value="selectedFood.calories" cap="round" label="Kcal"  foreground-color="#3399cc" background-color="rgba(183, 175, 248, 0.7)" append="" ></ng-gauge></span>
+        </div>
+
+      <div class="col list">
+			 <label class="item item-input item-floating-label">
+                    <input type="text" class="pretty-thai-text" name="foodName" placeholder="Food Name" ng-model="selectedFood.foodName" required>
+        </label>
+        <label class="item item-input item-floating-label">
+                     <span class="input-label pretty-thai-text small-text">มื้ออาหาร</span>
+                     <select class="pretty-thai-text" name="mealType" ng-model="selectedFood.mealType" required>
+                      <option value="breakfast">เช้า</option>
+                      <option value="lunch">กลางวัน</option>
+                      <option value="dinner">เย็น</option>
+                      <option value="snack">อื่นๆ</option>
+
+         </label>
+			 <label class="item item-input item-floating-label">
+                    <span class="input-label pretty-thai-text small-text">Number - จำนวน ({{selectedItem.unitName}})</span>
+                    <input type="number" name="unitCount" ng-change="recal()" placeholder="Number - จำนวน" ng-model="selectedFood.unitCount" required>
+
+			 </label>
+     </div>
+    <!-- <div class="col col-top "><a class="right-padding" ng-click="toggleResult()"><i class="icon ion-close"></i></a></div> -->
+   </div>
+   <div class="button-bar">
+   <button class="button button-full pretty-thai-text button-balanced ink" ng-disabled="myForm.$invalid" ng-click="toggleResult()" >
+	   ยกเลิก
+    </button>
+    <button class="button button-full pretty-thai-text button-calm ink" ng-disabled="myForm.$invalid" ng-click="submit()" >
+                 บันทึก
+     </button>
+  </div>
+
+		</form>
+  </div>
+    </ion-content>
+</ion-view>

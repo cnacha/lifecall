@@ -1,0 +1,80 @@
+<ion-view view-title="ข้อมูลคนไข้">
+    <ion-content padding="true" class="has-header">
+		 <div id="patient-map"  style="position: absolute; top: 2em;left:50%;width:50%; height:100%"></div>
+        <form name="patientForm" class="list" ng-submit="createPatient(patient)" novalidate>
+            <div >
+                <div class="item item-text-wrap">
+				
+                    <div class="row" style="margin:1em;">
+                        <div class="col col-10">
+                            <!-- Profile image -->
+							<img class="img-circle" ng-if="patient.photoFilePath != null" src='{{URL_PREFIX + patient.photoFileURI}}'>
+							<img class="img-circle" ng-if="patient.photoFilePath == null" src="img/person.png">
+                            <!-- Profile image -->    				
+                        </div>
+                        <div class="col" style="margin:1em;">
+							
+                            <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                                    <p class="input-label pretty-thai-text">ชื่อจริง</p>
+                                    <input class="pretty-thai-text" type="text" placeholder="ชื่อจริง" ng-model="patient.firstname" ng-required="true">
+                                </label>
+                            <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                                    <p class="input-label pretty-thai-text">นามสกุล</p>
+                                    <input class="pretty-thai-text" type="text" placeholder="นามสกุล" ng-model="patient.lastname" ng-required="true">
+                            </label>
+							<p class="input-label pretty-thai-text padding-left">เพศ</p>
+							<label class="item item-radio padding-left">
+								<input type="radio" name="group" ng-model="patient.gender" value="male">
+								<div class="item-content  pretty-thai-text">ชาย</div>
+								<i class="radio-icon ion-checkmark"></i>
+							</label>
+							<label class="item item-radio padding-left">
+								<input type="radio" name="group" ng-model="patient.gender" value="female">
+								<div class="item-content pretty-thai-text">หญิง</div>
+								<i class="radio-icon ion-checkmark"></i>
+							</label>
+							<div class="border-top no-padding no-margin">
+							 <div class="item  item-icon-right" style="margin-bottom:1em;" ion-datetime-picker date ng-model="patient.birthday" placeholder="" ng-required="true">
+                                <p class="input-label pretty-thai-text">วันเกิด</p>
+                                <p>{{patient.birthday| date: "yyyy-MM-dd"}}</p>
+                                <p style="color: #b3b3b3" class="pretty-thai-text" ng-if="patient.birthday == null">วันเกิด</p>
+                            </div>
+							</div>
+							<div class="border-top no-padding no-margin">
+							 <label class="item item-input item-floating-label">
+                                    <p class="input-label pretty-thai-text">โรคประจำตัว</p>
+                                    <input class="pretty-thai-text" type="text" placeholder="โรคประจำตัว" ng-model="patient.disease">
+                             </label>
+							 </div>
+                            <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                                <p class="input-label pretty-thai-text">โทรศัพท์</p>
+                                <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="patient.phone" ng-required="true">
+								<small class="pretty-thai-text  orange-text">โทรศัพท์ของสายรัดข้อมือ</small>
+								<BR/><small ng-if="patient.id != undefined && patient.id!=0" class="pretty-thai-text orange-text">Security Code: {{patient.securityCode}}</small>	
+							</label>
+                           
+                            <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                                    <p class="input-label pretty-thai-text">ที่อยู่</p>
+                                    <textarea rows="2" class="pretty-thai-text" placeholder="ที่อยู่" ng-model="patient.address" ng-required="true">
+                                    </textarea>
+                                </label>
+                            <!-- Required ?  -->
+                           
+							<div style="padding:0.8em;">
+								<button style="float:right;" class="button button button-calm pretty-thai-text" ng-disabled="patientForm.$invalid" type="submit">บันทึก</button>
+								<button style="float:right;margin-right:0.3em;" class="button button button-energized pretty-thai-text" ui-sref="app.patientList">ยกเลิก</button>
+							</div>
+                        </div>
+							 
+						<div class="col col-50 center-text">	
+							<img ng-show="loading"  src="img/map.png" align="center" width="50%"><BR/>
+							<img ng-show="loading" src="img/barloader.gif">
+						</div>
+                    </div>
+                </div>
+            </div>
+          
+        </form>
+		
+    </ion-content>
+</ion-view>

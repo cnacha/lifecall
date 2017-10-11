@@ -1,0 +1,66 @@
+<ion-view view-title="Health Diagnosis"style="background: url(img/login.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+    <ion-content ng-class="{expanded:isExpanded}" >
+    <div class=" padding"  >
+				<div class=" row" >
+					<div class="col center-text">
+						<span class="pretty-thai-text medium-text white-text ">ผลการวิเคราะห์ความเสี่ยงต่อโรค</span>
+						<h2 class="pretty-thai-text light-text shadow-text big-text diagnose-card-title">{{symptom.symptomName}}</h2>
+					</div>
+                </div>
+                    <div class="row">
+                      <div class="col center-text light-text">
+						<h3 class="light-text pretty-thai-text bold-text">ความเป็นไปได้</h3>
+                        <ng-gauge size="120" type="full" cap="round" thick="3" min="0" max="100" value="symptom.probability"  label="Probability"  foreground-color="#B3C2F2" background-color="rgba(255,255,255, 0.4)" append="%" ></ng-gauge>
+                      </div>
+                    </div>
+					<div class="transparent-bg box-outset-shadow">
+						<div class="row center-text padding">
+							<h3 class="col pretty-thai-text  light-text">ปัจจัยทางการแพทย์</h3>
+							<div class="col col-33 no-margin col-center center-text light-text pretty-thai-text">
+								<span class="small-text" nowrap>แนวโน้มความเสี่ยง</span>
+								<i ng-if="symptom.probablityVariant > 0"  class="material-icons">&#xE8E5;</i>
+								<i ng-if="symptom.probablityVariant < 0"  class="material-icons">&#xE8E3;</i>
+								<i ng-if="symptom.probablityVariant == 0"  class="material-icons">&#xE915;</i>
+							</div>
+						</div>
+						<div class="row" ng-repeat="fa in symptom.testInfo">
+						  <div class="col col-66 col-center right-text">
+							<span class="dark-text bold-text pretty-thai-text bold-text small-text">{{fa.prop}}</span>
+						  </div>
+						  <div class="col col-center">
+							<span ng-if="!fa.isNumber" class="light-text pretty-slim-text">{{fa.value}}</span>
+							<span ng-if="fa.isNumber" class="light-text pretty-slim-text">{{fa.value}}<!--<progress max="100" value="{{fa.value}}" data-label="{{fa.value}}" >--></span>
+						  </div>
+						</div>
+					</div>
+					<div class="row">
+					</div>
+					<!--
+					<div class="transparent-bg box-outset-shadow">
+						<div class="row center-text padding">
+							<h3 class="col pretty-thai-text  light-text">ปัจจัยการดำเนินชีวิต</h3>
+							 
+						</div>
+						<div class="row center-text" style="light-text">
+							<div class="col"></div>
+							<canvas id="doughnut" class="col col-66 bold-text chart chart-doughnut"
+							  chart-data="lifestyleChartData" chart-labels="lifestyleChartLabels" chart-options="lifestyleChartOptions">
+							</canvas>
+							<div class="col"></div>
+						</div>
+					-->
+					<!--
+						<div class="row" ng-repeat="fa in lifeEvaluation.factor">
+						  <div class="col col-66 col-center right-text">
+							<span class="dark-text bold-text pretty-thai-text bold-text small-text">{{fa.prop}}</span>
+						  </div>
+						  <div class="col col-center">
+							<span class="light-text pretty-slim-text">{{fa.value}}%<!--<progress max="100" value="{{fa.value}}" data-label="{{fa.value}}" ></span>
+						  </div>
+						</div>
+					</div>
+					-->
+				
+		</div>
+    </ion-content>
+</ion-view>

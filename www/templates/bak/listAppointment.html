@@ -1,0 +1,140 @@
+<ion-view view-title="My Appointment" style="background: url(img/login.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+    <ion-content>
+        <div class="content">
+			<BR/>
+			<ion-refresher on-refresh="loadData()" pulling-text="Pull to refresh">         
+			</ion-refresher>
+			
+            <div class="list no-margin">
+					<div class="item no-margin card-item" ng-repeat="item in appointments">
+						<div ng-switch on="item.status">
+				
+						<div class="card transparent-bg  no-margin"  ng-switch-when="0">
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-android-time lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  รอการอนุมัติ</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								
+								<span class="light-text small-text pretty-thai-text"><B>วันที่ </B>{{item.preferDate1 +" เวลา "+item.preferTime1}}</span><BR/>
+								<span class="light-text small-text pretty-thai-text ng-hide="item.preferDate2 == null"><B>วันที่</B> {{item.preferDate2 +"  เวลา "+item.preferTime2}}</span>
+
+							</div>
+							<div class="item tabs tabs-secondary tabs-icon-left ">
+								<div class="tab-item  light-text"></div>
+								<div class="tab-item light-text"></div>
+								<a class="tab-item  card-button-corner pretty-thai-text light-text" style="background: rgba(113, 203, 213, 0.4);" data-ink-color="#336699"  ng-click="cancel(item.keyString)">
+									<i class="icon ion-close-circled"></i> ยกเลิก
+								</a>
+							</div>
+						</div>
+						
+						<div class="card transparent-bg  no-margin"  ng-switch-when="1">
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-android-checkbox-outline lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  อนุมัติแล้ว</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								<div class="row">
+								<span class="col col-center light-text small-text pretty-thai-text"><B>วัน-เวลา</B></span>
+								<span class="col col-right light-text right-text small-text pretty-slim-text">{{ item.startDateTime | date :  "EEEE" }}<BR/>{{ item.startDateTime | date :  "yyyy" }}</span>
+								<span class="col col-center light-text shadow-text big-text pretty-slim-text">{{ item.startDateTime | date :  "dd MMM" }}</span>
+								<span class="col col-center light-text small-text pretty-slim-text">{{ item.startDateTime | date :  "HH:mm" }}</span>
+								</div>
+							</div>
+							<div class="item tabs tabs  tabs-secondary tabs-icon-left ">
+								<div class="tab-item light-text"></div>
+								<a class="tab-item card-button-corner pretty-thai-text light-text" style="background: rgba(0, 0, 0, 0.4);" data-ink-color="#336699" ng-click="confirm(item.keyString)">
+									<i class="icon ion-checkmark-circled" ></i> ยืนยัน
+								</a >
+								<a class="tab-item card-button pretty-thai-text light-text" style="background: rgba(113, 203, 213, 0.4);" data-ink-color="#336699" ng-click="cancel(item.keyString)">
+									<i class="icon ion-close-circled" ></i> ยกเลิก
+								</a>
+							</div>
+						</div>
+						
+						<div class="card transparent-bg  no-margin"  ng-switch-when="2">
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-android-alert lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  ปฎิเสธการนัด</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								<div class="row">
+								<span class="col col-center light-text small-text pretty-thai-text"><B>วัน-เวลา</B></span>
+								<span class="col col-right light-text right-text small-text pretty-slim-text">{{ item.startDateTime | date :  "EEEE" }}<BR/>{{ item.startDateTime | date :  "yyyy" }}</span>
+								<span class="col col-center light-text shadow-text big-text pretty-slim-text">{{ item.startDateTime | date :  "dd MMM" }}</span>
+								<span class="col col-center light-text small-text pretty-slim-text">{{ item.startDateTime | date :  "HH:mm" }}</span>
+								</div>
+							</div>
+							<div class="item tabs tabs-secondary tabs-icon-left ">
+								<div class="tab-item  light-text"></div>
+								<div class="tab-item light-text"></div>
+								<a class="tab-item  card-button-corner pretty-thai-text light-text" style="background: rgba(113, 203, 213, 0.4);" data-ink-color="#336699"  ng-click="edit(item.keyString)">
+									<i class="icon ion-close-circled"></i> นัดวันเวลาใหม่
+								</a>
+								<a class="tab-item  card-button pretty-thai-text light-text" style="background: rgba(113, 203, 213, 0.4);" data-ink-color="#336699"  ng-click="cancel(item.keyString)">
+									<i class="icon ion-close-circled"></i> ยกเลิก
+								</a>
+							</div>
+						</div>
+						
+						<div class="card transparent-bg  no-margin"  ng-switch-when="3">
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-android-cancel lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  ยกเลิกการนัด</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								<div class="row">
+								<span class="col col-center light-text small-text pretty-thai-text"><B>วัน-เวลา</B></span>
+								<span class="col col-right light-text right-text small-text pretty-slim-text">{{ item.startDateTime | date :  "EEEE" }}<BR/>{{ item.startDateTime | date :  "yyyy" }}</span>
+								<span class="col col-center light-text shadow-text big-text pretty-slim-text">{{ item.startDateTime | date :  "dd MMM" }}</span>
+								<span class="col col-center light-text small-text pretty-slim-text">{{ item.startDateTime | date :  "HH:mm" }}</span>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="card transparent-bg  no-margin"  ng-switch-when="4">
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-checkmark-circled lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  ยืนยันการนัด</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								<div class="row">
+								<span class="col col-center light-text small-text pretty-thai-text"><B>วัน-เวลา</B></span>
+								<span class="col col-right light-text right-text small-text pretty-slim-text">{{ item.startDateTime | date :  "EEEE" }}<BR/>{{ item.startDateTime | date :  "yyyy" }}</span>
+								<span class="col col-center light-text shadow-text big-text pretty-slim-text">{{ item.startDateTime | date :  "dd MMM" }}</span>
+								<span class="col col-center light-text small-text pretty-slim-text">{{ item.startDateTime | date :  "HH:mm" }}</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="card transparent-bg  no-margin"  ng-switch-default>
+							<div class="item item-avatar  item-icon-left">
+								<i class="icon ion-android-checkbox lighter-text" style="font-size: 70px;"></i>
+								<span class="dark-text small-text pretty-thai-text"><B>สถานะ</B>:  เสร็จสิ้นการตรวจ</span>
+								<h2 class="light-text big-text pretty-thai-text">{{item.specialty}}</h2>
+								<span class="dark-text small-text pretty-thai-text"><B>อาการเบื้องต้น</B>: {{item.initialSymptom}}</span><BR/><BR/>
+								
+								<div class="row">
+								<span class="col col-center light-text small-text pretty-thai-text"><B>วัน-เวลา</B></span>
+								<span class="col col-right light-text right-text small-text pretty-slim-text">{{ item.startDateTime | date :  "EEEE" }}<BR/>{{ item.startDateTime | date :  "yyyy" }}</span>
+								<span class="col col-center light-text shadow-text big-text pretty-slim-text">{{ item.startDateTime | date :  "dd MMM" }}</span>
+								<span class="col col-center light-text small-text pretty-slim-text">{{ item.startDateTime | date :  "HH:mm" }}</span>
+								</div>
+							</div>
+						</div>
+					
+						</div>				
+				
+            		</div>
+       		</div>
+       		
+       </div>
+    </ion-content>
+</ion-view>

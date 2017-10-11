@@ -1,0 +1,24 @@
+<ion-view view-title="รายงานสถานะ">
+	<ion-nav-buttons side="left">
+    <nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" active-icon="ion-close" resting-icon="ion-plus-round" toggling-method="click">
+        <button ng-click="newEmrequestLog('push')" mfb-button icon="ion-android-arrow-forward" class="pretty-thai-text" label="บันทึกสถานะต่อไป"></button>
+		<button ng-click="newEmrequestLog('pull')" mfb-button icon="ion-android-arrow-back" class="pretty-thai-text" label="บันทึกสถานะย้อนหลัง"></button>
+    </nav>
+	</ion-nav-buttons>
+    <ion-content padding="true" class="has-header" style="margin-top:1em;background-color: #555">
+	 <ion-refresher on-refresh="loadData()" pulling-text="โหลดข้อมูลใหม่">         
+	 </ion-refresher>
+	  <div class="container">
+      <ul>
+        <li ng-repeat="log in statusLogs"><span></span>
+          <div >
+            <div class="title">{{statusTH(log.status)}}</div>
+            <div class="info">{{log.note}}</div>
+          </div> <span class="number"><span>{{formatTime(log.logDate)}}</span> <span></span></span>
+        </li>
+       
+      </ul>
+    </div>
+	
+    </ion-content>
+</ion-view>

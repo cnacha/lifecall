@@ -1,0 +1,8 @@
+bower_components
+node_modules
+extra
+dist
+debug.log
+npm-debug.log
+examples/angularjs-gauge.min.js
+examples/angularjs-gauge.min.js.map
