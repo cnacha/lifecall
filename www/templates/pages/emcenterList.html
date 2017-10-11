@@ -1,0 +1,43 @@
+<ion-view view-title="ศูนย์บริการฉุกเฉิน">
+    <ion-nav-buttons side="left">
+    <nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" active-icon="ion-close" resting-icon="ion-plus-round" toggling-method="click">
+        <button ui-sref="app.emcenterForm" mfb-button icon="ion-person-add" class="pretty-thai-text" label="เพื่มข้อมูล"></button>
+        <button ng-click="showSearchPopup()" mfb-button icon="ion-search" class="pretty-thai-text" label="ค้นหา"></button>
+		<button ng-click="loadData(0,7)" mfb-button icon="ion-refresh" class="pretty-thai-text" label="โหลดใหม่"></button>
+    </nav>
+	</ion-nav-buttons>
+    <ion-content ng-class="{expanded:isExpanded}"  padding="true" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
+
+        <ion-list can-swipe="true" ng-repeat="emcenter in emcenters">
+            <ion-item class="item item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)" >
+				<div class="row">
+					<div class="col  dark-text col-center">
+						<h2 class="pretty-thai-text"> {{emcenter.name}} </h2>
+						<h3 class="pretty-thai-text orange-text">{{emcenter.phone}} </h3>
+					</div>
+					
+					<div class="col col-15 center-text">
+							<span class="pretty-thai-text dark-text">เวลาเฉลี่ย (นาที)</span><BR/>
+							<span class="big-text pretty-thai-text yellow-text">{{emcenter.avgDeliveryMinsTime}}</span>
+					</div>
+				</div>
+				
+				<ion-option-button ng-click="phonecall({{emcenter.phone}})" class="button-energized option-button">
+                        <i class="icon ion-android-call"></i>
+                    </ion-option-button>
+				<ion-option-button ng-click="getEmCenterDetail(emcenter)" class="button-orange option-button">
+					<i class="icon ion-edit"></i>
+				</ion-option-button>
+				<ion-option-button ng-click="deleteEmCenter('{{emcenter.id}}')" class="button-assertive option-button">
+					<i class="icon ion-trash-a"></i>
+				</ion-option-button>
+				<i class="icon stable ion-chevron-right"></i>
+            </ion-item>
+        </ion-list>
+		<ion-infinite-scroll 
+                     on-infinite="loadMoreData()"
+					  ng-if="!moredata"
+                     immediate-check="true"
+					  ></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

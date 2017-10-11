@@ -1,0 +1,111 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "ng-material-floating-button",
+        "scope": null,
+        "escapedName": "ng-material-floating-button",
+        "name": "ng-material-floating-button",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "H:\\side_project\\lifecall"
+    ]
+  ],
+  "_from": "ng-material-floating-button@latest",
+  "_id": "ng-material-floating-button@0.6.2",
+  "_inCache": true,
+  "_location": "/ng-material-floating-button",
+  "_nodeVersion": "0.12.0",
+  "_npmUser": {
+    "name": "aurelio",
+    "email": "aurelio.ogliari@gmail.com"
+  },
+  "_npmVersion": "2.5.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ng-material-floating-button",
+    "scope": null,
+    "escapedName": "ng-material-floating-button",
+    "name": "ng-material-floating-button",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ng-material-floating-button/-/ng-material-floating-button-0.6.2.tgz",
+  "_shasum": "0193991a933cd839c84ac2403d1d023480898a28",
+  "_shrinkwrap": null,
+  "_spec": "ng-material-floating-button",
+  "_where": "H:\\side_project\\lifecall",
+  "author": {
+    "name": "Nobita"
+  },
+  "bugs": {
+    "url": "https://github.com/nobitagit/ng-material-floating-button/issues"
+  },
+  "dependencies": {},
+  "description": "angular directive for material floating buttons",
+  "devDependencies": {
+    "angular-mocks": "^1.3.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-sass": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-gh-pages": "^0.9.1",
+    "grunt-karma": "^0.9.0",
+    "grunt-preprocess": "^4.1.0",
+    "grunt-usemin": "^3.0.0",
+    "jasmine-core": "^2.1.3",
+    "karma": "^0.12.28",
+    "karma-jasmine": "^0.3.2",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
+    "karma-phantomjs-launcher": "^0.1.4"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "0193991a933cd839c84ac2403d1d023480898a28",
+    "tarball": "https://registry.npmjs.org/ng-material-floating-button/-/ng-material-floating-button-0.6.2.tgz"
+  },
+  "gitHead": "dd61072d3af56894c439ca7144b50de7a85567fe",
+  "homepage": "https://github.com/nobitagit/ng-material-floating-button",
+  "keywords": [
+    "angular",
+    "directive",
+    "material",
+    "design",
+    "floating",
+    "button",
+    "google",
+    "inbox"
+  ],
+  "license": "MIT",
+  "main": [
+    "src/mfb-directive.js",
+    "mfb/dist/mfb.css",
+    "mfb/src/mfb.scss"
+  ],
+  "maintainers": [
+    {
+      "name": "aurelio",
+      "email": "aurelio.ogliari@gmail.com"
+    }
+  ],
+  "name": "ng-material-floating-button",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nobitagit/ng-material-floating-button.git"
+  },
+  "scripts": {
+    "test": "grunt karma"
+  },
+  "version": "0.6.2"
+}

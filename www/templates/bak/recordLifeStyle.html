@@ -1,0 +1,32 @@
+<ion-modal-view>
+   <ion-header-bar class="bar-shade1">
+      <h1 class = "title">Record Activity</h1>
+   </ion-header-bar>
+    <ion-content>
+		<form name="myForm" class="list" novalidate>
+			 <h4 class="pretty-thai-text">เลือกกิจกรรม</h4> 
+			 <ion-multiple-select title="Select Activity" options="activitySelection" key-property="value" value-property="name" render-checkbox="false" class="item item-input item-icon-right">
+				<div class="pretty-thai-text center-text">
+				  {{getOptionsSelectedTxt(activitySelection, 'name', 'selected')}}
+				</div>
+				<i class="icon material-icons green-text">&#xE566;</i>
+			</ion-multiple-select>
+  
+			<label class="item item-input item-floating-label pretty-thai-text">
+				<span class="input-label">จำนวนชั่วโมง</span>
+                <input type="number" class="pretty-thai-text" placeholder="จำนวนชั่วโมง" name="initialSymptom" ng-model="formData.duration">
+             </label>
+			 <div class="padding">
+				<p class="pretty-thai-text" ng-show="myForm.$error.required">* โปรดกรอกข้อมูลทุกช่อง</p>
+			</div>
+			<div class="row">
+			<button class="col button pretty-thai-text button-full button-stable ink" ng-disabled="myForm.$invalid" ng-click="closeNewLifeStyleModal()" >
+					ยกเลิก
+            </button>
+			<button class="col-50 button pretty-thai-text button-full button-violet ink" ng-disabled="myForm.$invalid" ng-click="recordLifeStyle()" >
+					บันทึก
+              </button>
+			</div>
+		</form>
+   </ion-content>
+</ion-modal-view>

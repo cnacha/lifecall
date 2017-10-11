@@ -1,0 +1,24 @@
+<ion-view view-title="{{mealtype}}" style="background: url(img/login.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+    <ion-content ng-class="{expanded:isExpanded}" >
+	<div >
+		<ion-list  show-delete="false" show-reorder="false" can-swipe="true">
+				<ion-item collection-repeat="item in cList" class="item-icon-right"  ui-sref="" style="background: rgba(255, 255, 255, 0.4)">
+				  <div class="row">
+						<span class="col dark-text col-66 col-center  pretty-thai-text"> {{item.foodName}}</span>
+						<span class="col col-center light-text  big-text pretty-slim-text">{{item.calories}}</span>
+				   </div>
+					<i class="icon material-icons light-text ">&#xE315;</i>
+				  <ion-option-button class="button-violet pretty-thai-text" ng-click="delItem(item)">
+						ลบ
+				  </ion-option-button>
+         
+				</ion-item>
+		</ion-list>
+    <div class="padding center-text light-text" ng-show="cList.length == 0">
+      <i class="icon big-icon ion-alert-circled"></i>
+      <p class="pretty-thai-text">ไม่พบการบันทึก</p>
+    </div>
+
+	</div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,45 @@
+<ion-view view-title="ข้อมูลศูนย์บริการฉุกเฉิน">
+    <ion-content padding="true" class="has-header">
+        <form name="emCenterForm" class="list" ng-submit="createEmCenter(emcenter)" novalidate>
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <div class="row">
+                        <div class="col col-50" style="margin:0.5em;padding-right: 20px;">
+                        <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                            <p class="input-label pretty-thai-text" style="width:100%!important;">ชื่อสถานบริการฉุกเฉิน</p>
+                            <input class="pretty-thai-text" type="text" placeholder="ชื่อสถานบริการฉุกเฉิน" ng-model="emcenter.name" ng-required="true">
+							<BR/><small ng-if="emcenter.id != undefined && emcenter.id!=0" class="pretty-thai-text orange-text">Security Code: {{emcenter.securityCode}}</small>	
+							
+						</label>
+						
+                        <label class="item item-input item-floating-label"  style="margin-bottom:1em;">
+                            <p class="input-label pretty-thai-text">รายละเอียด</p>
+                            <input class="pretty-thai-text" type="text" placeholder="รายละเอียด" ng-model="emcenter.description" ng-required="true">
+                        </label>
+                        <label class="item item-input item-floating-label"  style="margin-bottom:1em;">
+                            <p class="input-label pretty-thai-text">โทรศัพท์</p>
+                            <!-- ng-pattern="/^[0]{1}([0-9]{9}|[0-9]{8})$/" -->
+                            <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="emcenter.phone"  ng-required="true" >
+                        </label>
+                        </div>
+                        <div class="col col-50">             
+                        <p class="pretty-thai-text">โปรดระบุตำแหน่งสถานบริการฉุกเฉิน*</p>
+                        <div id="em-center-map"  style="padding-left:0;width:105%; height:330px"></div>
+                        <input type="hidden" ng-model="emcenter.locLat">
+                        <input type="hidden" ng-model="emcenter.locLong">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:0.8em;">
+                <button style="float:right;" class="button button button-calm pretty-thai-text" ng-disabled="emCenterForm.$invalid" type="submit">
+                บันทึก
+            </button>
+                <button style="float:right;margin-right:0.5em;" class="button button button-energized pretty-thai-text" ui-sref="app.emcenterList">
+                ยกเลิก
+            </button>
+
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

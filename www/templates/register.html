@@ -1,0 +1,38 @@
+<ion-view view-title="User Registration">
+    <ion-content ng-class="{expanded:isExpanded}" style="background: url(img/bg-106.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+	<div  class="im-wrapper padding">
+		<div class="row">
+		<h1 class="col col-right col-center appname pretty-bold-text">Life Care</h1>
+		<h3 class="col col-center padding pretty-thai-text light-text shadow-text">ลงทะเบียน</h3>
+		</div>
+		<form name="myForm" class="list" novalidate>
+			<div class="list" >
+			<ion-md-input class="pretty-thai-text" placeholder="ชื่อ" highlight-color="energized"  ng-model="formData.firstname" type="text" ng-required="true"></ion-md-input>
+			<ion-md-input class="pretty-thai-text" placeholder="นามสกุล" highlight-color="energized"  ng-model="formData.lastname" type="text" ng-required="true"></ion-md-input>
+			<ion-md-input class="pretty-thai-text" placeholder="อีเมล์" highlight-color="energized"  ng-model="formData.email" type="email" ng-required="true"></ion-md-input>
+			<BR/><BR/>
+			<div class="rcorners"><div class="padding">
+			<h3 class=" pretty-thai-text light-text"><i class="icon ion-android-person"></i> ผู้ใช้งาน</h3>
+				<label class="item item-input item-icon-left item-floating-label pretty-thai-text" style="background: rgba(255, 255, 255, 0.8);">
+                   <i class="icon ion-android-person placeholder-icon"></i><input type="text"  class="dark-text pretty-thai-text center-text" ng-required="true"  placeholder="Username" ng-model="formData.username">
+				</label>
+				<label class="item item-input item-icon-left item-floating-label pretty-thai-text" style="background: rgba(255, 255, 255, 0.8);">
+                    <i class="icon ion-key placeholder-icon"></i><input type="password"  class="dark-text pretty-thai-text center-text" ng-required="true" placeholder="Password"  ng-model="formData.password">
+				</label>
+			</div></div>
+			 <div class="padding">
+				<p class="pretty-thai-text light-text" ng-show="myForm.$error.required">*  โปรดกรอกข้อมูลให้ครบ</p>
+				<p class="pretty-thai-text light-text" ng-show="myForm.$error.email">* โปรดกรอกอีเมล์ที่ถูกต้อง</p>
+			</div>
+			 
+			<button class=" button login-button pretty-thai-text button-full button-energized ink" ng-disabled="myForm.$invalid" ng-click="submit()" >
+					ลงทะเบียน
+                </button>
+			<button class=" button login-button pretty-thai-text button-full button-light ink"  ui-sref="app.login" >
+					ยกเลิก
+                </button>
+			</div>
+		</form>
+        </div>
+    </ion-content>
+</ion-view>

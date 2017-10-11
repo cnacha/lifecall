@@ -1,0 +1,29 @@
+
+<html ng-app="ionicApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"> 
+    
+  
+   
+    <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+  </head>
+<div ng-controller="ListVoucherCtrl">
+	<ion-view view-title="Voucher" style="background-color: #f1e6d4">
+    <ion-content ng-class="{expanded:isExpanded}" >
+    
+
+
+  
+  <ion-content class="padding">
+  <p class="dark-text">Please show these voucher at cashier<BR/> before making payment</p>
+		<ion-list show-delete="false" show-reorder="false" can-swipe="true">
+				<ion-item collection-repeat="item in fillformList" class="itemlist item-icon-left" >
+					<div ng-if="item.voucherState == 0">
+						<i class="icon material-icons">&#xE8F6;</i>
+						
+						
+    <div ng-click="openPopup(item.voucherCode)">{{item.voucherDes}}</div>
+  </ion-content>
+
+</div>

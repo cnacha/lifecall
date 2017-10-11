@@ -1,0 +1,34 @@
+<ion-view view-title="Consumption Record" style="background: url(img/login.jpg) center; background-size: cover; align:center; vertical-align: middle;">
+    <ion-content>
+<div class="content">
+    <BR/>
+	<BR/>
+    <h3 class=" light-text center-text pretty-thai-text shadow-text">ปริมาณการบริโภคแคลอรี่</h3>
+    <p class="light-text center-text pretty-slim-text"> {{todayTxt}}</p>
+      <div class="row" class=" light-text" align="center" style="background: rgba(0, 0, 0, 0.2)">
+          <div class="col col-center" align="left" ><a href="#app/consumption/{{yesterday}}"><i class="icon ion-ios-arrow-back medium-icon light-text"></i></a></div>
+          <div class="col col-75 col-center pretty-slim-text light-text" align="center">
+              <ng-gauge  size="180" type="full" thick="6" min="0" max="10000" value="totalCalories" cap="round" label="Kcal"  foreground-color="rgba(163,246,240, 0.8)" background-color="rgba(163,246,240, 0.4)" append="" ></ng-gauge>
+            <!--
+            <div ng-show="totalCalories == 0" >
+              <div  class="round-button"><div class="round-button-circle"><a href="#" class="round-button"><i class="icon ion-alert"></i></a></div></div>
+              <h4 class="light-text pretty-text">No Calories Tracking Yet</h4>
+            </div>
+            -->
+          </div>
+          <div class="col col-center" align="right"><a href="#app/consumption/{{tomorrow}}"><i class="icon ion-ios-arrow-forward medium-icon light-text"></i></a></div>
+      </div>
+  
+    <div   >
+    <div class="row light-text">
+      <div class="col col-50 pretty-slim-text" align="center"><a href="#/app/listConsumption/breakfast/{{todate}}" class="meallink pretty-thai-text light-text bold-text narrow-text">มื้อเช้า</a><BR/><ng-gauge size="85" type="arch" thick="5" min="0" max="10000" value="breakfastCalories" cap="round" label="Kcal"  foreground-color="rgba(255, 240, 169, 0.8)" background-color="rgba(255, 240, 169, 0.4)" append="" ></ng-gauge></div>
+      <div class="col col-50 pretty-slim-text" align="center"><a href="#/app/listConsumption/lunch/{{todate}}" class="light-text pretty-thai-text bold-text narrow-text">มื้อกลางวัน</a><BR/><ng-gauge size="85" type="arch" thick="5" min="0" max="10000" value="lunchCalories" cap="round" label="Kcal"  foreground-color="rgba(254, 168, 178, 0.8)" background-color="rgba(254, 168, 178, 0.4)" append="" ></ng-gauge></div>
+		</div>
+    <div class="row light-text">
+      <div class="col col-50 pretty-slim-text" align="center"><a href="#/app/listConsumption/dinner/{{todate}}" class="light-text pretty-thai-text bold-text narrow-text">มื้อเย็น</a><BR/><ng-gauge size="85" type="arch" thick="5" min="0" max="10000" value="dinnerCalories" cap="round" label="Kcal"  foreground-color="rgba(204, 252, 167, 0.8)" background-color="rgba(204, 252, 167, 0.4)" append="" ></ng-gauge></div>
+      <div class="col col-50 pretty-slim-text" align="center"><a href="#/app/listConsumption/snack/{{todate}}" class="light-text pretty-thai-text bold-text narrow-text">อื่นๆ</a><BR/><ng-gauge size="85" type="arch" thick="5" min="0" max="10000" value="snackCalories" cap="round" label="Kcal"  foreground-color="rgba(183, 175, 248, 0.8)" background-color="rgba(183, 175, 248, 0.4)" append="" ></ng-gauge></div>
+		</div>
+  </div>
+ </div>
+    </ion-content>
+</ion-view>

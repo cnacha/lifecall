@@ -1,0 +1,54 @@
+<ion-view view-title="New Appointment">
+    <ion-content ng-class="{expanded:isExpanded}">
+	<div  class="im-wrapper">
+		<form name="myForm" class="list" novalidate>
+			 <h5 class="pretty-thai-text"><i class="icon ion-ios-medkit larger"></i> คลีนิก ความเชี่ยวชาญ</h5> 
+			 <ion-multiple-select title="Select specialty" options="specialitySelection" key-property="value" value-property="value" render-checkbox="false" class="item item-input item-icon-right">
+				<div class="pretty-thai-text">
+				  {{getOptionsSelectedTxt(specialitySelection, 'value', 'selected')}}
+				</div>
+				<i class="icon ion-ios-medical green-text"></i>
+			</ion-multiple-select>
+  <!--          <label class="item item-input item-floating-label">
+                    <span class="input-label">Speciality</span>
+                    <input type="text" placeholder="Speciality" name="specialty" ng-model="formData.specialty" required>
+             </label>
+	-->
+			<BR/>
+			<h5 class="border-top pretty-thai-text"><i class="icon ion-android-calendar larger"></i> ตัวเลือกที่ 1:  วัน-เวลาที่ขอนัด</h5> 
+			<div class="item item-icon-right" ion-datetime-picker date ng-model="formData.preferDate1" required>
+				  <div class="pretty-thai-text">วัน: {{formData.preferDate1| date: "yyyy-MM-dd"}} </div>
+				  <i class="icon ion-ios-calendar green-text"></i>
+			</div>
+			<ion-multiple-select title="Select Time" options="timeList1" key-property="value" value-property="value" render-checkbox="false" class="item item-input item-icon-right">
+				<div class="pretty-thai-text">
+				   เวลา: {{getOptionsSelectedTxt(timeList1, 'value', 'selected')}}
+				</div>
+				<i class="icon ion-clock green-text"></i>
+			</ion-multiple-select>
+			
+			<h5 class="border-top pretty-thai-text"><i class="icon ion-android-calendar larger"></i> ตัวเลือกที่ 2: วัน-เวลาที่ขอนัด</h5> 
+			<div class="item item-icon-right" ion-datetime-picker date ng-model="formData.preferDate2">
+				  <div class="pretty-thai-text">วัน: {{formData.preferDate2| date: "yyyy-MM-dd"}} </div>
+				  <i class="icon ion-ios-calendar green-text"></i>
+			</div>
+			<ion-multiple-select title="Select Time" options="timeList2" key-property="value" value-property="value" render-checkbox="false" class="item item-input item-icon-right">
+				<div class="pretty-thai-text">
+				   เวลา: {{getOptionsSelectedTxt(timeList2, 'value', 'selected')}}
+				</div>
+				<i class="icon ion-clock green-text"></i>
+			</ion-multiple-select>
+			<h5 class="border-top pretty-thai-text"><i class="icon ion-edit larger"></i>โปรดระบุ อาการเบื้องต้น หรือ อื่นๆ</h5>
+			<label class="item item-input item-floating-label pretty-thai-text">
+                    <input type="text" class="pretty-thai-text" placeholder="อาการเบื้องต้น" name="initialSymptom" ng-model="formData.initialSymptom">
+             </label>
+			 <div class="padding">
+				<p class="pretty-thai-text" ng-show="myForm.$error.required">* โปรดกรอกข้อมูลทุกช่อง</p>
+			</div>
+			 <button class="button pretty-thai-text button-full button-violet ink" ng-disabled="myForm.$invalid" ng-click="submit()" >
+					ส่งใบนัดตรวจ
+                </button>
+		</form>
+        </div>
+    </ion-content>
+</ion-view>

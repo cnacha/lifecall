@@ -1,0 +1,58 @@
+<ion-view view-title="ข้อมูลผู้ดูแล">
+    <ion-content padding="true" class="has-header">
+	<div class="row">
+		<div class="col col-50">
+			<form name="careGiverForm" class="list" ng-submit="createCareGiver(caregiver)" novalidate>
+				
+				<div class="">
+					<div class="item item-text-wrap" style="padding:2em;">
+				<label class="item item-input item-floating-label" style="margin-bottom:1em;">
+					<p class="input-label pretty-thai-text">ชื่อจริง</p>
+					<input type="text" class="pretty-thai-text" placeholder="ชื่อจริง" ng-model="caregiver.firstname" ng-required="true">
+				</label>
+						<label class="item item-input item-floating-label" style="margin-bottom:1em;">
+					<p class="input-label pretty-thai-text">นามสกุล</p>
+					<input type="text" class="pretty-thai-text" placeholder="นามสกุล" ng-model="caregiver.lastname" ng-required="true">
+				</label>
+						<label class="item item-input item-floating-label" style="margin-bottom:1em;">
+					<p class="input-label pretty-thai-text">ที่อยู่</p>
+					<input type="text" class="pretty-thai-text" placeholder="ที่อยู่" ng-model="caregiver.address" ng-required="true">
+				</label>
+						<label class="item item-input item-floating-label" style="margin-bottom:1em;">
+					<p class="input-label pretty-thai-text">อีเมล</p>
+					<input type="email" class="pretty-thai-text" placeholder="อีเมล" ng-model="caregiver.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"  ng-required="true">
+				</label>
+						<label class="item item-input item-floating-label" style="margin-bottom:1em;">
+					<p class="input-label pretty-thai-text">โทรศัพท์</p>
+					<input type="tel" class="pretty-thai-text" placeholder="หมายเลขโทรศัพท์" ng-model="caregiver.phone"  ng-required="true" >                
+				</label>
+					</div>
+				</div>
+				<div style="padding:0.8em;">
+					<button style="float:right;" class="button button button-calm pretty-thai-text" ng-disabled="careGiverForm.$invalid"
+						type="submit">
+					บันทึก
+				</button>
+					<button style="float:right;margin-right:0.3em;" class="button button button-energized pretty-thai-text" ui-sref="app.caregiverList">
+					ยกเลิก
+				</button>
+				</div>
+			</form>
+		</div>
+		<div ng-if="caregiver.patients != null && caregiver.patients != undefined " class="col padding-top">
+				<h4 class="dark-text pretty-thai-text">รายชื่อคนไข้ในความดูแล</h4>
+			<div class="list">
+			<a class="item item-avatar" ng-repeat="patient in caregiver.patients">
+				<img  ng-if="patient.photoFilePath !=null" src='{{URL_PREFIX + patient.photoFileURI}}'>
+				<img  ng-if="patient.photoFilePath ==null" src="img/person.png">
+				<h2 class="pretty-thai-text">{{patient.firstname}} {{patient.lastname}}</h2>
+				<p><small class="pretty-thai-text">{{patient.disease}}</small></p>
+			</a>
+              
+            </div>
+			<p ng-if="caregiver.patients.length ==0" class="pretty-thai-text">ยังไม่มีคนไข้ในความดูแล</p>
+		</div>
+	</div>
+        
+    </ion-content>
+</ion-view>
