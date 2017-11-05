@@ -11,6 +11,7 @@
         "angularjs-gauge": "^2.0.0",
         "bluebird": "^3.5.0",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-android-permissions": "^1.0.0",
         "cordova-plugin-crosswalk-webview": "^2.3.0",
         "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-nativeaudio": "^3.0.9",
@@ -51,7 +52,8 @@
                 "XWALK_MULTIPLEAPK": "true"
             },
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-nativeaudio": {}
+            "cordova-plugin-nativeaudio": {},
+            "cordova-plugin-android-permissions": {}
         },
         "platforms": [
             "android"

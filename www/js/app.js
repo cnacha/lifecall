@@ -43,36 +43,75 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
 		  console.log("registrationId "+data.registrationId);
 		  $rootScope.tokenId = data.registrationId;
 		});
+		//$rootScope.isNotificationCalled = false;
 		push.on('notification', function ( data) {
-			console.log(data);
+			console.log("onNotification");
 			//$rootScope.isNotificationCalled is for preventing duplicating alarm from notification
-			if($rootScope.isNotificationCalled == undefined ||  !$rootScope.isNotificationCalled){
-				$rootScope.isNotificationCalled = true;
+			//if($rootScope.isNotificationCalled == undefined ||  !$rootScope.isNotificationCalled){
+				//$rootScope.isNotificationCalled = true;
 				$cordovaNativeAudio.loop('alarmClock');
 				var msg = data.message;
 				console.log("message " + data.title + ": " + msg);
 				if(msg.indexOf("SOS Emergency Request") != -1){
 					$rootScope.loadEmrequestData();
-					msg = msg + "<BR/>โปรดตรวจสอบรายชื่อสายเรียกเข้าด้านข้าง ";
+					msg = msg + "<BR/>โปรดตรวจสอบรายชื่อด้านข้าง ";
 				} 
+				if($rootScope.alertPopup == null || $rootScope.alertPopup == undefined){
+					$rootScope.alertPopup = $ionicPopup.alert({
+						title: "ข้อความเตือน",
+						template: msg,
+						 buttons: [
+						  { text: 'OK',  onTap: function(e) {
+								  console.log(e);
+								  if(data.title.indexOf('Alert') != -1)
+									$cordovaNativeAudio.stop('alarmClock');
+								  //$rootScope.isNotificationCalled = false;
+								  $rootScope.alertPopup = null;
+								  return true; 
+								} 
+						   }
+						 ]
+					});
+				}
 				
-				var alertPopup = $ionicPopup.alert({
-					title: "ข้อความเตือน",
-					template: msg,
-					 buttons: [
-					  { text: 'OK',  onTap: function(e) {
-							  console.log(e);
-							  if(data.title.indexOf('Alert') != -1)
-								$cordovaNativeAudio.stop('alarmClock');
-							  $rootScope.isNotificationCalled = false;
-							  return true; 
-							} 
-					   }
-					 ]
-				});
-				
-			}
+			//}
 		});
+		/**
+		var permissions = cordova.plugins.permissions;
+		permissions.hasPermission(permissions.READ_SMS, function( status ){
+		 if ( status.hasPermission ) {
+			console.log("READ_SMS Yes :D ");
+		  }
+		  else {
+			console.warn("READ_SMS No :( ");
+			permissions.requestPermission(permissions.READ_SMS, success, error);
+
+			function error() {
+			  console.warn('SMS permission is not turned on');
+			}
+
+			function success( status ) {
+			  if( !status.hasPermission ) 
+				  console.log("permission is denied");
+			  else
+				   console.log("permission is granted");
+			}
+		  }
+		});
+		
+		if(SMS) SMS.startWatch(function(){
+        		console.log( 'watching started');
+				
+        	}, function(){
+        		console.log('failed to start watching');
+        	});
+		document.addEventListener('onSMSArrive', function(e){
+				console.log('SMS Arrived');
+				var data = e.data;
+				$rootScope.submitRequest(data.address);
+				console.log(JSON.stringify(data));
+			},false);
+		**/
     });
 })
 

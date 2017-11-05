@@ -138,6 +138,11 @@ angular.module('starter.controllers', ['ionic'])
 			return $filter('date')(dateObj, 'HH:mm');
 		}
 		
+		$rootScope.toMinute = function(second){
+			return  Math.ceil(second / 60);
+		}
+		
+		
 		// take photo for image recognition
 		$scope.takeImage = function () {
 			console.log("takeImage called");
@@ -296,10 +301,21 @@ angular.module('starter.controllers', ['ionic'])
 
 	})
 
-	.controller("LogoutCtrl", function ($scope, $state, $ionicLoading, methodFactory) {
+	.controller("LogoutCtrl", function ($scope, $state,$http, $ionicLoading, methodFactory) {
 		console.log("LogoutCtrl called");
-		methodFactory.reset();
-		$state.go('app.login');
+		$ionicLoading.show();
+		var uObj = JSON.parse(window.localStorage.getItem('user'));
+		console.log("user: "+JSON.stringify(uObj));
+		$http.get(URL_PREFIX + "/api/security/logout.do?username=" + uObj.username)
+						.then(function (res) {
+							$ionicLoading.hide();
+							console.log('Successfully logout..');
+							methodFactory.reset();
+							$state.go('app.login');
+						}, function (err) {
+							console.error('ERR', JSON.stringify(err));
+						});
+		
 	})
 
 	.controller("EmrequestLogListCtrl", function ($scope, $state,$http,$stateParams, $ionicLoading, methodFactory, $rootScope) {
@@ -391,17 +407,11 @@ angular.module('starter.controllers', ['ionic'])
 
 	.controller("EmcenterFormCtrl", function ($scope, $state, $ionicLoading, methodFactory, $http, $ionicPopup) {
 		console.log("EmcenterFormCtrl called");
-		navigator.geolocation.getCurrentPosition(function (pos) {
-			if ($scope.emcenter != null) {
-				$scope.emLat = $scope.emcenter.locLat;
-				$scope.emLong = $scope.emcenter.locLong;
-			} else {
-				$scope.emLat = pos.coords.latitude;
-				$scope.emLong = pos.coords.longitude;
-			}
+		
+		$scope.renderMap = function(){
 			console.log('currentLat ' + $scope.emLat + " currentLong " + $scope.emLong);
-
-			var loadEmCenterMap = function () {
+			$ionicLoading.show();
+			var loadMap = function(){
 				var myLatlng = new google.maps.LatLng($scope.emLat, $scope.emLong);
 				var map = new google.maps.Map(document.getElementById('em-center-map'), {
 					zoom: 12,
@@ -433,22 +443,47 @@ angular.module('starter.controllers', ['ionic'])
 				});
 				$ionicLoading.hide();
 			}
+			
 			setTimeout(function () {
-				google.maps.event.addDomListener(window, 'load', loadEmCenterMap());
+				google.maps.event.addDomListener(window, 'load', loadMap());
 			}, 50);
-		})
-
-		$ionicLoading.show({
-			content: 'Loading',
-			animation: 'fade-in',
-			showBackdrop: true
-		});
-
+		}
+		
 		$scope.emcenter = {};
 
 		if (window.localStorage.getItem('emcenter')) {
 			$scope.emcenter = JSON.parse(window.localStorage.getItem('emcenter'));
 		}
+		
+		if ($scope.emcenter!=null && $scope.emcenter.locLat != undefined && $scope.emcenter.locLat!=0) {
+			$scope.emLat = $scope.emcenter.locLat;
+			$scope.emLong = $scope.emcenter.locLong;
+			$scope.renderMap();
+		} else {
+			console.log("No location setted, getting current location...");
+			var options = {maximumAge: 0, timeout: 10000, enableHighAccuracy:true};
+			$ionicLoading.show({
+				template: 'No location set, getting current location...',
+				animation: 'fade-in',
+				showBackdrop: true
+			});
+
+			navigator.geolocation.getCurrentPosition(function (pos) {
+				$ionicLoading.hide();
+				$scope.emLat = pos.coords.latitude;
+				$scope.emLong = pos.coords.longitude;
+				$scope.renderMap();
+			}, function(error){
+				$ionicLoading.hide();
+				$scope.emLat = 19.9874;
+				$scope.emLong = 99.8598;
+				$scope.renderMap();
+			},options);
+			
+		}
+		
+
+		
 		$scope.createEmCenter = function (emcenter) {
 			emcenter.locLat = $scope.emLat;
 			emcenter.locLong = $scope.emLong;
@@ -1085,7 +1120,7 @@ angular.module('starter.controllers', ['ionic'])
 									console.log(i);
 								}
 								
-								$http.get(URL_PREFIX + "/api/summary/emrequest/latest.do?number=5")
+								$http.get(URL_PREFIX + "/api/summary/emrequest/latest.do?number=3")
 									.success(function (data, status) {
 										console.log(data);
 										$scope.latester = data;
