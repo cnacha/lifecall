@@ -18,8 +18,10 @@
 				<!-- Patient info -->
 				<div class="row box-inset-shadow round-box" style="background: rgba(0,0,0,0.3)">
 					<div class="col center-text" style="padding-top:1em;padding-left: 1em">
-						 <img class="img-circle" ng-if="emrequest.patient.photoFilePath != null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
-						<img class="img-circle" ng-if="emrequest.patient.photoFilePath == null" src="img/person.png">
+					    <div class="image-cropper">
+						 <img  ng-if="emrequest.patient.photoFilePath != null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
+						<img  ng-if="emrequest.patient.photoFilePath == null" src="img/person.png">
+						</div>
 						<BR/>
 					</div>
 					<div class="col col-50">
@@ -38,8 +40,9 @@
 										<small>{{emrequest.patient.disease}}</small>
 									</div>
 								</div>
+								<span class="pretty-thai-text light-text" >รับเรื่องโดย {{emrequest.callCenterUser}}</span>
 								<h4 class="pretty-thai-text yellow-text shadow-text">{{statusTH(emrequest.status)}}</h4>
-								<small class="pretty-thai-text light-text">สถานที่รับ {{emrequest.locationDetails}}</small>
+								<span ng-if="emrequest.locationDetails != null" class="pretty-thai-text light-text" >สถานที่รับ {{emrequest.locationDetails}}</span>
 							</div>
 						</div>
 					</div>

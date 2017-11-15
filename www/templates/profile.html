@@ -1,0 +1,56 @@
+<ion-view view-title="แก้ไขข้อมูลผู้ใช้งาน">
+    <ion-content ng-class="{expanded:isExpanded}">
+	<div  class="im-wrapper padding-left">
+	<h2 class="pretty-thai-text">ข้อมูลผู้ใช้งาน</h2>
+		<form name="myForm" novalidate>
+			 <div class="list" >
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">ชื่อ</span>
+					<input type="text" class="pretty-thai-text" placeholder="ชื่อ" name="firstname" ng-model="formData.firstname" ng-required="true">
+			 </label>
+			  <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">นามสกุล</span>
+					<input type="text" class="pretty-thai-text" placeholder="นามสกุล" name="lastname" ng-model="formData.lastname" ng-required="true">
+			 </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">อีเมล</span>
+					<input type="email" class="pretty-thai-text" placeholder="อีเมล" name="email" ng-model="formData.email" ng-required="true">
+			 </label>
+			 <label class="item item-input item-floating-label pretty-thai-text">
+					<span class="input-label pretty-thai-text">โทรศัพท์</span>
+					<input type="text" class="pretty-thai-text" placeholder="โทรศัพท์" name="phone" ng-model="formData.phone" ng-required="true">
+			 </label>
+			  <div class="padding">
+				<p class="pretty-thai-text dark-text" ng-show="myForm.$error.required">*  โปรดกรอกข้อมูลให้ครบ</p>
+				<p class="pretty-thai-text dark-text" ng-show="myForm.$error.email">* โปรดกรอกอีเมล์ที่ถูกต้อง</p>
+			</div>
+			 
+			 <button class="button pretty-thai-text button-energized ink" ng-disabled="myForm.$invalid" ng-click="saveData()" >
+					บันทึก
+			 </button>
+			 <!--
+			 <button class=" button login-button pretty-thai-text button-calm ink"  ui-sref="app.home" >
+					ยกเลิก
+			 </button>
+			 -->
+			 </div>
+		</form>
+				
+		<h2 class="pretty-thai-text border-top">เลือกรหัสผ่านใหม่</h2>	
+		<form name="pwForm" class="list" novalidate>
+				 <label class="item item-input item-floating-label border-top pretty-thai-text light-text">
+					<span class="input-label pretty-thai-text dark-text">ใส่รหัสผ่าน</span>
+                    <input type="password" class="pretty-thai-text light-text" placeholder="รหัสผ่าน" name="password" ng-model="formData.password" ng-required="true">
+				 </label>
+				  <label class="item item-input item-floating-label pretty-thai-text">
+						<span class="input-label pretty-thai-text dark-text">ใส่รหัสผ่านอีกครั้ง</span>
+						<input type="password" class="pretty-thai-text light-text" placeholder="ใส่รหัสผ่านอีกครั้ง" name="repassword" ng-model="formData.repassword" ng-required="true">
+				 </label>
+				 <div class="padding"></div>
+				  <button class="button pretty-thai-text button-calm ink" ng-disabled="pwForm.$invalid" ng-click="changePW()" >
+							ตั้งรหัส
+				 </button>
+		</form>
+        </div>
+    </ion-content>
+</ion-view>

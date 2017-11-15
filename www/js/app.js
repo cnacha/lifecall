@@ -154,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
 	})
 
     .state('app.home', {
-        url: '/home/:showIndex',
+        url: '/home/:id',
         views: {
             'menuContent': {
                 templateUrl: 'templates/home.html',
@@ -173,6 +173,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
             'menuContent': {
                 templateUrl: 'templates/dashboard.html',
                 controller: 'DashboardCtrl'
+            },
+            'fabContent': {
+                
+            }
+        }
+    })
+	
+	.state('app.profile', {
+        url: '/profile',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/profile.html',
+                controller: 'ProfileCtrl'
             },
             'fabContent': {
                 
@@ -265,6 +278,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
             'menuContent': {
 			templateUrl: 'templates/pages/emrequestLogForm.html',
 			controller: 'EmrequestLogFormCtrl'
+			},
+		}
+    })
+	
+	.state('app.distanceAlertList', {
+		url: '/distanceAlertList',
+		views: {
+            'menuContent': {
+			templateUrl: 'templates/pages/distanceAlertList.html',
+			controller: 'DistanceAlertListCtrl'
+			},
+		}
+    })
+	
+	.state('app.patientMap', {
+		url: '/patientMap',
+		views: {
+            'menuContent': {
+			templateUrl: 'templates/pages/patientMap.html',
+			controller: 'PatientMapCtrl'
 			},
 		}
     })

@@ -6,7 +6,7 @@
 		<button ng-click="loadData(0,7)" mfb-button icon="ion-refresh" class="pretty-thai-text" label="โหลดใหม่"></button>
     </nav>
 	</ion-nav-buttons>
-    <ion-content ng-class="{expanded:isExpanded}"  padding="true" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
+    <ion-content class="custom" ng-class="{expanded:isExpanded}"  padding="true" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
 
         <ion-list can-swipe="true" ng-repeat="emcenter in emcenters">
             <ion-item class="item item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)" >
@@ -21,7 +21,9 @@
 							<span class="big-text pretty-thai-text yellow-text">{{toMinute(emcenter.avgDeliveryMinsTime)}}</span>
 					</div>
 				</div>
-				
+				<ion-option-button ng-click="sendEmail(emcenter)" class="button-dark option-button">
+					<i class="icon ion-email"></i>
+				 </ion-option-button>
 				<ion-option-button ng-click="phonecall({{emcenter.phone}})" class="button-energized option-button">
                         <i class="icon ion-android-call"></i>
                     </ion-option-button>

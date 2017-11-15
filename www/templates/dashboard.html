@@ -44,6 +44,7 @@
 						<a class="item item-avatar" ng-repeat="emrequest in latester">
 							<img  ng-if="emrequest.patient.photoFilePath !=null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
 							<img  ng-if="emrequest.patient.photoFilePath ==null" src="img/person.png">
+							<p><small class="pretty-thai-text">{{emrequest.submitDate}}</small></p>
 							<h2 class="pretty-thai-text">{{emrequest.patient.firstname}} {{emrequest.patient.lastname}}</h2>
 							<p><small class="pretty-thai-text">{{statusTH(emrequest.status)}}</small></p>
 						</a>

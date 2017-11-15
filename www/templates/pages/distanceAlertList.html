@@ -1,0 +1,84 @@
+<ion-view view-title="แจ้งเตือนออกนอกบริเวณ">
+  <ion-content class="custom" ng-class="{expanded:isExpanded}"  padding="true" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
+    <ion-refresher on-refresh="loadData()" class="pretty-thai-text" pulling-text="ดึงข้อมูลอีกครั้ง" distance="-10%">
+    </ion-refresher>
+	<H3 class="pretty-thai-text dark-text">แจ้งเตือน ({{countActive}})</H3>
+	
+	<ion-list class="" can-swipe="true" ng-repeat="a in alerts">
+      <ion-item ng-if="a.status=='1'" class="item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)">
+          <div class="row">
+            <div class="col col-10 col-center">
+				<div class="image-cropper-small">
+				<img  ng-if="a.patient.photoFilePath != null" src='{{URL_PREFIX + a.patient.photoFileURI}}'>
+				<img  ng-if="a.patient.photoFilePath == null" src="img/person.png">
+				</div>
+			</div>
+            <div class="col padding dark-text col-center">
+              <h2 class="pretty-thai-text"> {{a.patient.firstname}} {{a.patient.lastname}} </h2>
+              <p class="pretty-thai-text orange-text">อายุ<span> {{a.patient.age}}</span> ปี</p>
+            </div>
+			<div class="col col-15 center-text">
+				<span class="pretty-thai-text dark-text">เวลา</span><BR/>
+				<div class="big-text pretty-thai-text yellow-text padding-top">{{formatTime(a.logDate)}}</div>
+				<div class="pretty-thai-text dark-text padding-top">{{formatDate(a.logDate)}}</div>
+			</div>
+			<div class="col col-15 center-text">
+				<span class="pretty-thai-text dark-text">ระยะห่างจากบ้าน (เมตร)</span><BR/>
+				<div class="big-text pretty-thai-text yellow-text padding-top">{{a.distance}}</div>
+			</div>
+            <i class="icon ion-chevron-right stable"></i>
+          </div>
+		  <ion-option-button ng-click="phonecall({{a.patient.phone}})" class="button-energized option-button">
+             <i class="icon ion-android-call"></i>
+          </ion-option-button>
+		   <ion-option-button ng-click="getPatientDetail(a.patient)" class="button-orange option-button">
+            <i class="icon ion-android-map"></i>
+          </ion-option-button>
+          <ion-option-button ng-click="toggleStatus(a)" class="button-dark option-button">
+            <i class="icon ion-arrow-down-a"></i>
+          </ion-option-button>
+      </ion-item>
+    </ion-list>
+	
+	<H3 class="pretty-thai-text dark-text">เฝ้าระวัง ({{countInactive}})</H3>
+	<ion-list class="" can-swipe="true" ng-repeat="a in alerts">
+      <ion-item ng-if="a.status=='0'" class="item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)">
+          <div class="row">
+            <div class="col col-10 col-center">
+				<div class="image-cropper-small">
+				<img  ng-if="a.patient.photoFilePath != null" src='{{URL_PREFIX + a.patient.photoFileURI}}'>
+				<img  ng-if="a.patient.photoFilePath == null" src="img/person.png">
+				</div>
+			</div>
+            <div class="col padding dark-text col-center">
+              <h2 class="pretty-thai-text"> {{a.patient.firstname}} {{a.patient.lastname}} </h2>
+              <p class="pretty-thai-text orange-text">อายุ<span> {{a.patient.age}}</span> ปี</p>
+            </div>
+			<div class="col col-15 center-text">
+				<span class="pretty-thai-text dark-text">เวลา</span><BR/>
+				<div class="big-text pretty-thai-text yellow-text padding-top">{{formatTime(a.logDate)}}</div>
+				<div class="pretty-thai-text dark-text padding-top">{{formatDate(a.logDate)}}</div>
+			</div>
+			<div class="col col-15 center-text">
+				<span class="pretty-thai-text dark-text">ระยะห่างจากบ้าน (เมตร)</span><BR/>
+				<div class="big-text pretty-thai-text yellow-text padding-top">{{a.distance}}</div>
+			</div>
+            <i class="icon ion-chevron-right stable"></i>
+          </div>
+		  <ion-option-button ng-click="phonecall({{a.patient.phone}})" class="button-energized option-button">
+             <i class="icon ion-android-call"></i>
+          </ion-option-button>
+		   <ion-option-button ng-click="getPatientDetail(a.patient)" class="button-orange option-button">
+            <i class="icon ion-android-map"></i>
+          </ion-option-button>
+          <ion-option-button ng-click="deletePatient('{{a.id}}')" class="button-assertive option-button">
+            <i class="icon ion-trash-a"></i>
+          </ion-option-button>
+		  <ion-option-button ng-click="toggleStatus(a)" class="button-dark option-button">
+            <i class="icon ion-arrow-up-a"></i>
+          </ion-option-button>
+      </ion-item>
+    </ion-list>
+					 
+  </ion-content>
+</ion-view>

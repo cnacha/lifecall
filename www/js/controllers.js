@@ -138,6 +138,11 @@ angular.module('starter.controllers', ['ionic'])
 			return $filter('date')(dateObj, 'HH:mm');
 		}
 		
+		$rootScope.formatDate = function(date){
+			var dateObj = new Date(date);
+			return $filter('date')(dateObj, 'dd-MM-yyyy');
+		}
+		
 		$rootScope.toMinute = function(second){
 			return  Math.ceil(second / 60);
 		}
@@ -172,10 +177,10 @@ angular.module('starter.controllers', ['ionic'])
 
 
 		// On select emreqeust
-		$scope.getEmRequestDetail = function (n) {
-			console.log("showIndex:" +n);
-			
-			$state.go('app.home',{showIndex: n});
+		$scope.getEmRequestDetail = function (emreq) {
+			console.log("show req:" +JSON.stringify(emreq.id));
+			//$rootScope.emrequestid = emreq.id;
+			$state.go('app.home',{id: emreq.id});
 		};
 		
 		$rootScope.emrequests = {};
@@ -405,8 +410,10 @@ angular.module('starter.controllers', ['ionic'])
 	
 	})
 
-	.controller("EmcenterFormCtrl", function ($scope, $state, $ionicLoading, methodFactory, $http, $ionicPopup) {
+	.controller("EmcenterFormCtrl", function ($scope, $state, $ionicLoading,$ionicNavBarDelegate, methodFactory, $http, $ionicPopup) {
 		console.log("EmcenterFormCtrl called");
+		
+		$ionicNavBarDelegate.showBackButton(true);
 		
 		$scope.renderMap = function(){
 			console.log('currentLat ' + $scope.emLat + " currentLong " + $scope.emLong);
@@ -449,12 +456,39 @@ angular.module('starter.controllers', ['ionic'])
 			}, 50);
 		}
 		
+		$scope.loadUsers = function(){
+			$scope.drivers = [];
+			$scope.callcenters = [];
+			$ionicLoading.show();
+			$http.get(URL_PREFIX + "/api/emcenter/emdriver/list.do?id=" + $scope.emcenter.id)
+					.success(function (data, status) {
+						$scope.drivers = data;
+						$ionicLoading.hide();
+					}).error(function (data, status) {
+						console.log("error" + JSON.stringify(data));
+						$ionicLoading.hide();
+						$rootScope.errorPopUp(true);
+					});
+			$http.get(URL_PREFIX + "/api/emcenter/callcenter/list.do?id=" + $scope.emcenter.id)
+					.success(function (data, status) {
+						$scope.callcenters = data;
+						$ionicLoading.hide();
+					}).error(function (data, status) {
+						console.log("error" + JSON.stringify(data));
+						$ionicLoading.hide();
+						$rootScope.errorPopUp(true);
+					});
+		}
+		
 		$scope.emcenter = {};
 
 		if (window.localStorage.getItem('emcenter')) {
 			$scope.emcenter = JSON.parse(window.localStorage.getItem('emcenter'));
 		}
 		
+		$scope.loadUsers();
+		
+		// load location for map
 		if ($scope.emcenter!=null && $scope.emcenter.locLat != undefined && $scope.emcenter.locLat!=0) {
 			$scope.emLat = $scope.emcenter.locLat;
 			$scope.emLong = $scope.emcenter.locLong;
@@ -601,6 +635,48 @@ angular.module('starter.controllers', ['ionic'])
 					$rootScope.errorPopUp(true);
 				});
 		}
+		
+		$scope.sendEmail = function(item){
+			$scope.formData ={};
+			$scope.formData.email = "";
+			 var myPopup = $ionicPopup.show({
+				 template: 'Email <input type = "email" ng-model = "formData.email">',
+				 title: 'ส่งข้อมูลทางอีเมล์',
+				 scope: $scope,
+				  buttons: [{
+					text: 'Cancel',
+					type: 'button-default',
+					onTap: function(e) {
+					 // e.preventDefault();
+					}
+				  }, {
+					text: 'OK',
+					type: 'button-positive',
+					onTap: function(e) {
+						console.log('Sending Email!');
+						$ionicLoading.show();
+						$http.get(URL_PREFIX+"/api/emcenter/send.do?id="+item.id+"&email="+$scope.formData.email).
+							success(function(data, status, headers, config) 
+							{
+								$ionicLoading.hide();
+								var alertPopup = $ionicPopup.alert({
+									title: 'ส่งข้อมูลสำเร็จ',
+									template: 'ข้อมูลศูนย์ได้ถูกส่งไปทางอีเมล์แล้ว'
+								});
+							}).
+							error(function(data, status, headers, config) 
+							{
+								console.log("error: "+data);
+								$ionicLoading.hide();
+								var alertPopup = $ionicPopup.alert({
+									title: 'ส่งข้อมูลไม่สำเร็จ',
+									template: 'เกิดความผิดพลาดในการส่งอีเมล์'
+								});
+							});
+					}
+				  }]
+			  });
+		}
 
 		$scope.showSearchPopup = function () {
 			$scope.search = {};
@@ -731,6 +807,48 @@ angular.module('starter.controllers', ['ionic'])
 					$rootScope.errorPopUp(true);
 				});
 		}
+		
+		$scope.sendEmail = function(item){
+			$scope.formData ={};
+			$scope.formData.email = "";
+			 var myPopup = $ionicPopup.show({
+				 template: 'Email <input type = "email" ng-model = "formData.email">',
+				 title: 'ส่งข้อมูลทางอีเมล์',
+				 scope: $scope,
+				  buttons: [{
+					text: 'Cancel',
+					type: 'button-default',
+					onTap: function(e) {
+					 // e.preventDefault();
+					}
+				  }, {
+					text: 'OK',
+					type: 'button-positive',
+					onTap: function(e) {
+						console.log('Sending Email!');
+						$ionicLoading.show();
+						$http.get(URL_PREFIX+"/api/patient/send.do?id="+item.id+"&email="+$scope.formData.email).
+							success(function(data, status, headers, config) 
+							{
+								$ionicLoading.hide();
+								var alertPopup = $ionicPopup.alert({
+									title: 'ส่งข้อมูลสำเร็จ',
+									template: 'ข้อมูลของคนไข้ได้ถูกส่งไปทางอีเมล์แล้ว'
+								});
+							}).
+							error(function(data, status, headers, config) 
+							{
+								console.log("error: "+data);
+								$ionicLoading.hide();
+								var alertPopup = $ionicPopup.alert({
+									title: 'ส่งข้อมูลไม่สำเร็จ',
+									template: 'เกิดความผิดพลาดในการส่งอีเมล์'
+								});
+							});
+					}
+				  }]
+			  });
+		}
 
 		$scope.showSearchPopup = function () {
 			$scope.search = {};
@@ -780,10 +898,383 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.loadData(0,$scope.listLength);
 	})
 
-	.controller("PatientFormCtrl", function ($scope, $state, $ionicLoading, $http, $ionicPopup) {
+	.controller("PatientFormCtrl", function ($scope, $state, $ionicLoading,$cordovaDevice,$cordovaFile,$cordovaFileTransfer, $http, $cordovaCamera, $ionicPopup) {
 
 		$scope.patient = {};
 		$scope.loading = false;
+		
+		var userObj = JSON.parse(window.localStorage.getItem('user'));
+		if (window.localStorage.getItem('patient') != 'null') {
+			$scope.patient = JSON.parse(window.localStorage.getItem('patient'));
+			$scope.patient.currentLong = 0;
+			$scope.patient.currentLat = 0;
+			console.log(window.localStorage.getItem('patient'));
+			$scope.loading = true;
+			$http.get(URL_PREFIX+"/api/patient/locationlog/list.do?id="+$scope.patient.id)
+			.then(function(res){ 
+				$scope.loading = false;
+				var actualDistances = [];
+				var warnDistances = [];
+				$scope.prevPositions = [];
+				if(res.data!=0){
+					for(var i=0; i<res.data.length; i++){	
+						warnDistances.push($scope.patient.warnDistance);
+						actualDistances.push(res.data[i].distanceFromCenter);
+						if(i!=0){
+							$scope.prevPositions.push({lat: res.data[i].locLat, lng: res.data[i].locLong})
+						}
+					}
+					$scope.patient.currentLat = res.data[0].locLat;
+					$scope.patient.currentLong = res.data[0].locLong;
+					$scope.patient.distanceFromCenter = res.data[0].distanceFromCenter;
+				}
+				$scope.data = [actualDistances,warnDistances]; 
+				
+				setTimeout(function() {google.maps.event.addDomListener(window, 'load', loadMap());},500);
+			}, function(err) {
+				console.error('ERR', JSON.stringify(err));
+			}); 
+		}
+
+		
+		
+		var loadMap = function() {
+			$scope.loading = true;
+			console.log("inside google map dom listener");
+			
+			
+			var myLatlng = new google.maps.LatLng(20.0465867, 99.8931125);
+				var mapOptions = {
+					center: myLatlng,
+					zoom: 16
+					
+			};
+			
+			console.log("before render map ");
+			var map = new google.maps.Map(document.getElementById("patient-map"), mapOptions);
+			console.log("after render map ");
+			
+			var pImage = 'https://storage.googleapis.com/image-mobile/user_pointer.png';
+			var hImage = 'https://storage.googleapis.com/image-mobile/home-pointer.png';
+			var prevImage = 'https://storage.googleapis.com/image-mobile/user_prev_pointer.png';
+			console.log(JSON.stringify($scope.patient));
+			if($scope.patient.currentLat != 0 && $scope.patient.currentLong!=0){
+				map.setCenter(new google.maps.LatLng($scope.patient.currentLat, $scope.patient.currentLong));
+				var myLocation = new google.maps.Marker({
+					position: new google.maps.LatLng($scope.patient.currentLat, $scope.patient.currentLong),
+					map: map,
+					icon: pImage,
+					title: "คนไข้"
+				});
+				myLocation.setClickable(false);
+			} else if($scope.patient.homeLat != 0 && $scope.patient.homeLong!=0){
+				map.setCenter(new google.maps.LatLng($scope.patient.homeLat, $scope.patient.homeLong));
+			}
+			
+			for(var i=0; i< $scope.prevPositions.length; i++){
+				var prevLocation = new google.maps.Marker({
+				position: new google.maps.LatLng($scope.prevPositions[i].lat, $scope.prevPositions[i].lng),
+				map: map,
+				icon: prevImage,
+				title: "ประวัติตำแหน่ง"
+			});
+			}
+			var homeLocation = new google.maps.Marker({
+				position: new google.maps.LatLng($scope.patient.homeLat, $scope.patient.homeLong),
+				map: map,
+				icon: hImage,
+				title: "บ้าน"
+			});
+
+			var updateMarkerPosition = function () {
+				myLatlng = new google.maps.LatLng($scope.emLat, $scope.emLong);
+				$scope.patient.homeLat = $scope.emLat;
+				$scope.patient.homeLong = $scope.emLong;
+				homeLocation.setPosition(myLatlng);
+			}
+
+			var onDrag = new google.maps.event.addListener(homeLocation, 'dragend', function (event) {
+				$scope.emLat = event.latLng.lat();
+				$scope.emLong = event.latLng.lng();
+				console.log('on draging we get markerLat ' + $scope.emLat + " markerLong " + $scope.emLong);
+			});
+
+			var onClick = new google.maps.event.addListener(map, 'click', function (event) {
+				$scope.emLat = event.latLng.lat();
+				$scope.emLong = event.latLng.lng();
+				updateMarkerPosition();
+				console.log('on clicking we get markerLat ' + $scope.emLat + " markerLong " + $scope.emLong);
+			});
+			
+			$scope.map = map;
+			$scope.loading = false;
+		
+		};
+
+		// Create or Update Patient
+		$scope.createPatient = function (patient) {
+			$scope.patient = this.patient;
+			$ionicLoading.show({
+				content: 'Loading',
+				animation: 'fade-in',
+				showBackdrop: true
+			});
+			var callService = function(){
+				console.log("service calling "+JSON.stringify($scope.patient));
+				$http.post(URL_PREFIX + "/api/patient/save.do", JSON.stringify($scope.patient)).
+					success(function (data, status) {
+
+						if ($scope.patient.id != null) {
+							var alertPopup = $ionicPopup.alert({
+								title: 'เสร็จสิ้น',
+								template: 'เปลี่ยนแปลงข้อมูลคนไข้เรียบร้อยแล้ว !'
+							});
+							alertPopup.then(function (res) {
+								$state.go('app.patientList');
+							});
+						} else {
+							var alertPopup = $ionicPopup.alert({
+								title: 'เสร็จสิ้น',
+								template: 'เพิ่มข้อมูลคนไข้สำเร็จแล้ว!'
+							});
+							alertPopup.then(function (res) {
+								$state.go('app.patientList');
+							});
+						}
+
+						$ionicLoading.hide();
+
+					}).error(function (data, status) {
+						console.log("error" + JSON.stringify(data));
+						$ionicLoading.hide();
+						$rootScope.errorPopUp(true);
+					});
+			}
+			console.log(JSON.stringify($scope.patient));
+			if($scope.patient.id == undefined || $scope.patient.homeLat == 0){
+				var geocoder = new google.maps.Geocoder();
+				geocoder.geocode({
+					"address": $scope.patient.address
+				}, function(results) {
+					console.log(results[0].geometry.location.lat()); //LatLng
+					$scope.patient.homeLat = results[0].geometry.location.lat();
+					$scope.patient.homeLong = results[0].geometry.location.lng();
+					callService();
+				});
+			} else {
+				callService();
+			}
+		}
+		
+		$scope.loadPatient = function(){
+			$http.get(URL_PREFIX+"/api/patient/get.do?id="+$scope.patient.id)
+			.then(function(res){ 
+				$scope.patient = res.data;
+			}, function(err) {
+				console.error('ERR', JSON.stringify(err));
+			});
+			
+		}
+			
+		$scope.uploadImage = function(){
+			 $ionicLoading.show();
+			   // Destination URL
+			  var url = URL_PREFIX+"/api/patient/photo/upload.do?id="+$scope.patient.id;
+			 
+			  // File for Upload
+			  var targetPath = $scope.pathForImage($scope.image);
+			 
+			  // File name only
+			  var filename = $scope.image;
+			  var params = new Object();
+			  params.headers = {"___authorizationKey": userObj.authorizationKey, "Content-Type": "application/octet-stream"};
+			  var options = {
+				chunkedMode: false,
+				mimeType: "image/jpg",
+				params : params
+			  };
+			  
+			 
+			  $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+				console.log("upload successfully...");
+				$scope.loadPatient();
+				$ionicLoading.hide();
+			  });
+		}
+		
+		
+		$scope.pathForImage = function(image) {
+		  if (image === null) {
+			return '';
+		  } else {
+			return cordova.file.dataDirectory + image;
+		  }
+		};
+	
+		// take photo for profile
+		$scope.takeImage = function() {
+		  console.log("takeImage called");
+			var options = {
+				quality: 80,
+				destinationType: Camera.DestinationType.FILE_URI,
+				//sourceType: Camera.PictureSourceType.CAMERA,
+				sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+				allowEdit: false,
+				encodingType: Camera.EncodingType.JPEG,
+				targetWidth: 800,
+				targetHeight: 600,
+				popoverOptions: CameraPopoverOptions,
+				saveToPhotoAlbum: false
+			};
+
+			$cordovaCamera.getPicture(options).then(function(imagePath) {
+				console.log("getPicture called "+imagePath);
+				 var currentName = imagePath.replace(/^.*[\\\/]/, '');
+	 
+				//Create a new name for the photo
+				var d = new Date(),
+				n = d.getTime(),
+				newFileName =  n + ".jpg";
+			 
+				// If you are trying to load image from the gallery on Android we need special treatment!
+				if ($cordovaDevice.getPlatform() == 'Android' ) {
+					window.FilePath.resolveNativePath(imagePath, function(entry) {
+					window.resolveLocalFileSystemURL(entry, success, fail);
+					function fail(e) {
+					  console.error('Error: ', e);
+					}
+			 
+					function success(fileEntry) {
+					  var namePath = fileEntry.nativeURL.substr(0, fileEntry.nativeURL.lastIndexOf('/') + 1);
+					  // Only copy because of access rights
+					  $cordovaFile.copyFile(namePath, fileEntry.name, cordova.file.dataDirectory, newFileName).then(function(success){
+					  $scope.image = newFileName;
+					  $scope.uploadImage();
+					  }, function(error){
+						$scope.showAlert('Error', error.exception);
+					  });
+					};
+				  }
+				);
+				} else {
+				  var namePath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+				  // Move the file to permanent storage
+				  $cordovaFile.moveFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(function(success){
+					$scope.image = newFileName;
+					$scope.uploadImage();
+				  }, function(error){
+					$scope.showAlert('Error', error.exception);
+				  });
+				}
+			 
+			  
+			}, function(err) {
+				console.log(err);
+				$ionicLoading.hide();
+			});
+		  }
+			
+	})	
+	
+	.controller("DistanceAlertListCtrl", function ($scope, $state,$rootScope, $ionicLoading, $http, $ionicPopup) {
+
+		$scope.$parent.showHeader();
+		$scope.isExpanded = true;
+		$scope.hasHeaderFabRight = false;
+		$scope.$parent.setExpanded(true);
+
+		$ionicLoading.show({
+			content: 'Loading',
+			animation: 'fade-in',
+			showBackdrop: true
+		});
+
+		// Get detail
+		$scope.getPatientDetail = function (pObj) {
+			window.localStorage.setItem('patient', JSON.stringify(pObj));
+			console.log(pObj);
+			$state.go('app.patientMap');
+			return;
+		}
+
+		// Read
+		$scope.alerts = [];
+		$scope.loadData = function () {
+			$http.get(URL_PREFIX + "/api/distancealert/list.do")
+				.then(function (res) {
+					console.log(res.data);
+					$scope.alerts = res.data;
+					$scope.countActive = 0;
+					$scope.countInactive = 0;
+					for(var i=0; i<$scope.alerts.length; i++){
+						if($scope.alerts[i].status == '1')
+							$scope.countActive +=1;
+						else if($scope.alerts[i].status == '0')
+							$scope.countInactive +=1;
+					}
+					$scope.$broadcast('scroll.refreshComplete');
+					$ionicLoading.hide();
+					//console.log(JSON.stringify($scope.alerts));
+				}, function (err) {
+					console.error('ERR', JSON.stringify(err));
+					$ionicLoading.hide();
+					$rootScope.errorPopUp(true);
+				});
+
+		}
+		
+		// Delete
+		$scope.deletePatient = function (id) {
+			$ionicLoading.show({
+				content: 'Loading',
+				animation: 'fade-in',
+				showBackdrop: true
+			});
+			$http.get(URL_PREFIX + "/api/distancealert/delete.do?id=" + id).
+				success(function (data, status) {
+					var alertPopup = $ionicPopup.alert({
+						title: 'สำเร็จ',
+						template: 'ข้อมูลของคนไข้ได้ถูกลบแล้ว'
+					});
+					$ionicLoading.hide();
+
+					alertPopup.then(function (res) {
+						$scope.loadData();
+					});
+				}).error(function (data, status) {
+					console.log("error" + JSON.stringify(data));
+					$ionicLoading.hide();
+					$rootScope.errorPopUp(true);
+				});
+		}
+		
+		$scope.toggleStatus = function(item){
+			$ionicLoading.show();
+			$http.post(URL_PREFIX + "/api/distancealert/status/toggle.do?id="+item.id).
+				success(function (data, status) {
+					$ionicLoading.hide();
+					$scope.loadData();
+
+				}).error(function (data, status) {
+					console.log("error" + JSON.stringify(data));
+					$ionicLoading.hide();
+					$rootScope.errorPopUp(true);
+				});
+		}
+
+		$scope.loadData();
+	})
+
+	.controller("PatientMapCtrl", function ($scope, $state, $ionicNavBarDelegate, $ionicLoading,$cordovaDevice,$cordovaFile,$cordovaFileTransfer, $http, $cordovaCamera, $ionicPopup) {
+		$scope.$parent.showHeader();
+		$scope.isExpanded = true;
+		$scope.hasHeaderFabRight = false;
+		$scope.$parent.setExpanded(true);
+		$ionicNavBarDelegate.showBackButton(true);
+		
+		$scope.patient = {};
+		$scope.loading = false;
+		var userObj = JSON.parse(window.localStorage.getItem('user'));
 		if (window.localStorage.getItem('patient') != 'null') {
 			$scope.patient = JSON.parse(window.localStorage.getItem('patient'));
 			console.log(window.localStorage.getItem('patient'));
@@ -875,43 +1366,16 @@ angular.module('starter.controllers', ['ionic'])
 		
 		};
 
-		// Create or Update Patient
-		$scope.createPatient = function (patient) {
-			$ionicLoading.show({
-				content: 'Loading',
-				animation: 'fade-in',
-				showBackdrop: true
+		$scope.loadPatient = function(){
+			$http.get(URL_PREFIX+"/api/patient/get.do?id="+$scope.patient.id)
+			.then(function(res){ 
+				$scope.patient = res.data;
+			}, function(err) {
+				console.error('ERR', JSON.stringify(err));
 			});
-
-			$http.post(URL_PREFIX + "/api/patient/save.do", JSON.stringify(this.patient)).
-				success(function (data, status) {
-
-					if (patient.id != null) {
-						var alertPopup = $ionicPopup.alert({
-							title: 'เสร็จสิ้น',
-							template: 'เปลี่ยนแปลงข้อมูลคนไข้เรียบร้อยแล้ว !'
-						});
-						alertPopup.then(function (res) {
-							$state.go('app.patientList');
-						});
-					} else {
-						var alertPopup = $ionicPopup.alert({
-							title: 'เสร็จสิ้น',
-							template: 'เพิ่มข้อมูลคนไข้สำเร็จแล้ว!'
-						});
-						alertPopup.then(function (res) {
-							$state.go('app.patientList');
-						});
-					}
-
-					$ionicLoading.hide();
-
-				}).error(function (data, status) {
-					console.log("error" + JSON.stringify(data));
-					$ionicLoading.hide();
-					$rootScope.errorPopUp(true);
-				});
 		}
+	
+			
 	})
 
 	.controller("CaregiverListCtrl", function ($scope, $state, $ionicLoading, methodFactory, $http, $ionicPopup) {
@@ -1146,13 +1610,87 @@ angular.module('starter.controllers', ['ionic'])
 		
 	})
 	
+	.controller('ProfileCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
+		$rootScope.showMenu = true;
+		// Set Header
+		$scope.$parent.showHeader();
+		$scope.$parent.clearFabs();
+		$scope.isExpanded = true;
+		$scope.$parent.setExpanded(true);
+		$scope.$parent.setHeaderFab(false);
+		$ionicNavBarDelegate.showBackButton(true);
+		$ionicSideMenuDelegate.canDragContent(true);
+		
+		var userObj = JSON.parse(window.localStorage.getItem('user'));
+		$scope.formData = {};
+		$scope.formData.firstname = userObj.firstname;
+		$scope.formData.lastname = userObj.lastname;
+		$scope.formData.phone = userObj.phone;
+		$scope.formData.email = userObj.email;
+		$scope.saveData = function(){
+			userObj.firstname = $scope.formData.firstname;
+			userObj.lastname = $scope.formData.lastname;
+			userObj.phone = $scope.formData.phone;
+			userObj.email = $scope.formData.email;
+			$ionicLoading.show();
+			var headers = {'Content-Type': 'application/json'};
+			$http.post(URL_PREFIX + "/api/user/save.do", JSON.stringify(userObj), headers).
+				success(function (data, status, headers, config) {
+					$ionicLoading.hide();
+					window.localStorage.setItem('user',JSON.stringify(userObj));
+					var alertPopup = $ionicPopup.alert({
+							title: 'Complete',
+							template: 'การแก้ไขข้อมูลสร็จสมบูรณ์ !'
+						});
+				}).
+				error(function (data, status, headers, config) {
+					console.log("error" + JSON.stringify(data));
+					$ionicLoading.hide();
+				});
+		}
+		
+		$scope.changePW = function(){
+			if( $scope.formData.password != $scope.formData.repassword){
+				var alertPopup = $ionicPopup.alert({
+							title: 'Error',
+							template: 'รหัสผ่านที่ใส่ไม่ตรงกัน '
+						});
+				return;
+			}
+			
+			$ionicLoading.show();
+			userObj.password = $scope.formData.password;
+			var headers = {'Content-Type': 'application/json'};
+			$http.post(URL_PREFIX + "/api/user/changePassword.do", JSON.stringify(userObj), headers).
+				success(function (data, status, headers, config) {
+					$ionicLoading.hide();
+					var alertPopup = $ionicPopup.alert({
+							title: 'Complete',
+							template: 'การแก้ไขรหัสผ่านเสร็จสมบูรณ์ !'
+						});
+					window.localStorage.setItem('user',JSON.stringify(userObj));
+				}).
+				error(function (data, status, headers, config) {
+					console.log("error" + JSON.stringify(data));
+					$ionicLoading.hide();
+				});
+		}
+		/**
+		
+		**/
+	})
+	
 	.controller('HomeCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
-		$rootScope.emrequest = $rootScope.emrequests[$stateParams.showIndex];
-	//	console.log('HomeCtrl '+$rootScope.emrequest.patient.id);
+		//$rootScope.emrequest = $rootScope.emrequests[$stateParams.showIndex];
+		console.log('HomeCtrl '+$stateParams.id);
 		$scope.loading = true;
-		$http.get(URL_PREFIX + "/api/emrequest/get.do?id=" + $rootScope.emrequest.id)
+		$rootScope.emrequest = null;
+		$scope.emcenter = null;
+		var userObj = JSON.parse(window.localStorage.getItem('user'));
+		$http.get(URL_PREFIX + "/api/emrequest/get.do?id=" + $stateParams.id)
 				.success(function (data, status) {
 					$rootScope.emrequest = data;
+					console.log($rootScope.emrequest);
 					$scope.getPatientLocation();
 				}).error(function (data, status) {
 					console.log("error" + JSON.stringify(data));
@@ -1326,7 +1864,7 @@ angular.module('starter.controllers', ['ionic'])
 					});
 				alertPopup.then(function (res) {
 					$ionicLoading.show();
-					$http.get(URL_PREFIX + "/api/emrequest/status/respond.do?id=" + $rootScope.emrequest.id )
+					$http.get(URL_PREFIX + "/api/emrequest/status/respond.do?id=" + $rootScope.emrequest.id+"&user="+userObj.username )
 						.success(function (data, status) {
 							$rootScope.loadEmrequestData();
 							$rootScope.emrequest.status = "responded";

@@ -1,15 +1,19 @@
 <ion-view view-title="ข้อมูลคนไข้">
     <ion-content padding="true" class="has-header">
-		 <div id="patient-map"  style="position: absolute; top: 2em;left:50%;width:50%; height:100%"></div>
+		 
         <form name="patientForm" class="list" ng-submit="createPatient(patient)" novalidate>
             <div >
                 <div class="item item-text-wrap">
 				
                     <div class="row" style="margin:1em;">
-                        <div class="col col-10">
+                        <div class="col col-10 ">
                             <!-- Profile image -->
-							<img class="img-circle" ng-if="patient.photoFilePath != null" src='{{URL_PREFIX + patient.photoFileURI}}'>
-							<img class="img-circle" ng-if="patient.photoFilePath == null" src="img/person.png">
+							<div ng-if="patient.id != undefined" class="image-cropper">
+							<a ng-click="takeImage()">
+							<img ng-if="patient.photoFilePath != null" src='{{URL_PREFIX + patient.photoFileURI}}'>
+							<img ng-if="patient.photoFilePath == null" src="img/person.png">
+							</a>
+							</div>
                             <!-- Profile image -->    				
                         </div>
                         <div class="col" style="margin:1em;">
@@ -55,21 +59,33 @@
                            
                             <label class="item item-input item-floating-label" style="margin-bottom:1em;">
                                     <p class="input-label pretty-thai-text">ที่อยู่</p>
-                                    <textarea rows="2" class="pretty-thai-text" placeholder="ที่อยู่" ng-model="patient.address" ng-required="true">
+                                    <textarea rows="2" id="patient-address" class="pretty-thai-text" placeholder="ที่อยู่" ng-model="patient.address" ng-required="true">
                                     </textarea>
                                 </label>
+							 <label class="item item-input item-floating-label" style="margin-bottom:1em;">
+                                <p class="input-label pretty-thai-text">ระยะเฝ้าระวังจากบ้าน (เมตร)</p>
+                                <input class="pretty-thai-text" type="number" placeholder="ระยะเฝ้าระวังจากบ้าน (เมตร)" ng-model="patient.warnDistance">
+							</label>
                             <!-- Required ?  -->
-                           
+							<div ng-if="patient.id != undefined">
+								<p class="input-label pretty-thai-text">กำหนดตำแหน่งบ้าน</p>
+							   <div id="patient-map" style="padding-left:0;width:105%; height:330px"></div>
+								<input type="hidden" ng-model="patient.homeLat">
+								<input type="hidden" ng-model="patient.homeLong">
+							</div>
 							<div style="padding:0.8em;">
 								<button style="float:right;" class="button button button-calm pretty-thai-text" ng-disabled="patientForm.$invalid" type="submit">บันทึก</button>
 								<button style="float:right;margin-right:0.3em;" class="button button button-energized pretty-thai-text" ui-sref="app.patientList">ยกเลิก</button>
 							</div>
+							
                         </div>
-							 
+						<!--	 
 						<div class="col col-50 center-text">	
 							<img ng-show="loading"  src="img/map.png" align="center" width="50%"><BR/>
 							<img ng-show="loading" src="img/barloader.gif">
 						</div>
+						-->
+						>
                     </div>
                 </div>
             </div>

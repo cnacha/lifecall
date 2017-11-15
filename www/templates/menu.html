@@ -2,6 +2,10 @@
 	<ion-side-menu-content>
 		<ion-nav-bar class="bar-shade1" ng-class="{expanded: isExpanded, 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}"
 		    align-title="left">
+			
+			<ion-nav-back-button class="no-text">
+            </ion-nav-back-button>
+
 		<!--	<ion-nav-buttons side="left">
 				<button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="left">
                 </button>
@@ -40,14 +44,16 @@
 				<ion-item menu-close ui-sref="app.emcenterList" class="item-icon-left padding-top padding-bottom pretty-thai-text yellow4-background">
 					<i class="icon material-icons light-text shadow-text" style="font-weight: 100">&#xE548;</i>ศูนย์บริการฉุกเฉิน
 				</ion-item>
-				
+				<ion-item menu-close ui-sref="app.distanceAlertList" class="item-icon-left padding-top padding-bottom pretty-thai-text " style="background: rgba(255, 255, 255, 0.6);">
+					<i class="icon material-icons light-text shadow-text" style="font-weight: 100">&#xE8B4;</i>แจ้งเตือนออกนอกบริเวณ
+				</ion-item>
 				<ion-item ng-click="loadEmrequestData()" class="item-icon-right light-text pretty-thai-text shadow-text" style="background: rgba(255, 255, 255, 0.4);">
-					<i class="icon ion-android-refresh" ></i>สายเรียกเข้า
+					<i class="icon ion-android-refresh" ></i>สายเรียกฉุกเฉิน
 				</ion-item>
 				<div ng-if="listload" class="padding center-text" style="background: rgba(255, 255, 255, 1)">
 					<img src="img/listloader.gif">
 				</div>
-				<ion-item  ng-if="!listload" ng-click="getEmRequestDetail($index)" ng-repeat="emreq in emrequests" style="background: rgba(255, 255, 255, 0.9);padding-bottom:0.5em" class="item  no-margin item-icon-left pretty-thai-text">
+				<ion-item  ng-if="!listload" ng-click="getEmRequestDetail(emreq)" ng-repeat="emreq in emrequests" style="background: rgba(255, 255, 255, 0.9);padding-bottom:0.5em" class="item  no-margin item-icon-left pretty-thai-text">
 					<i ng-if="emreq.patient.currentStatus == 'alert'" class="icon material-icons red-text " style="font-weight: 100">&#xE90F;</i>
 					<i ng-if="emreq.patient.currentStatus == 'beware'" class="icon material-icons yellow-text " style="font-weight: 100">&#xE90F;</i>
 
@@ -63,7 +69,9 @@
 					</div>
 					
 				</ion-item>
-				
+				<ion-item ui-sref="app.profile" class="item-icon-right padding-left padding-top padding-bottom light-text pretty-thai-text " >
+					<i class="icon material-icons light-text" style="font-weight: 100">&#xE8A6;</i>แก้ไขข้อมูลผู้ใช้
+				</ion-item>
 				<ion-item ui-sref="app.logout" class="item-icon-right padding-left padding-top padding-bottom light-text pretty-thai-text " >
 					<i class="icon material-icons light-text" style="font-weight: 100">&#xE879;</i> ออกจากระบบ
 				</ion-item>

@@ -21,25 +21,51 @@
                             <!-- ng-pattern="/^[0]{1}([0-9]{9}|[0-9]{8})$/" -->
                             <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="emcenter.phone"  ng-required="true" >
                         </label>
-                        </div>
-                        <div class="col col-50">             
-                        <p class="pretty-thai-text">โปรดระบุตำแหน่งสถานบริการฉุกเฉิน*</p>
+						<p class="pretty-thai-text">โปรดระบุตำแหน่งสถานบริการฉุกเฉิน*</p>
                         <div id="em-center-map"  style="padding-left:0;width:105%; height:330px"></div>
                         <input type="hidden" ng-model="emcenter.locLat">
                         <input type="hidden" ng-model="emcenter.locLong">
                         </div>
+                        <div class="col col-50">             
+							<div ng-if="callcenters != null && callcenters != undefined && callcenters.length  > 0 " class="col padding-top">
+								<h3 class="dark-text pretty-thai-text">รายชื่อผู้ประสานงาน</h3>
+								<div class="list">
+								<a ng-click="phonecall(user.phone)" class="item item-icon-right" ng-repeat="user in callcenters">
+									<i class="icon ion-android-call"></i>
+									<h2 class="pretty-thai-text">{{user.firstname}} {{user.lastname}}</h2>
+									<p><small class="pretty-thai-text">ชื่อผู้ใช้งาน: {{user.username}}</small></p>
+									<p><small class="pretty-thai-text">โทรศัพท์: {{user.phone}}</small></p>
+								</a>
+								</div>
+								<p ng-if="caregiver.patients.length ==0" class="pretty-thai-text">ยังไม่มีคนไข้ในความดูแล</p>
+							</div>
+							<div ng-if="drivers != null && drivers != undefined && drivers.length  > 0 " class="col padding-top">
+								<h3 class="dark-text pretty-thai-text">รายชื่อคนขับรถ</h3>
+								<div class="list">
+								<a ng-click="phonecall(user.phone)" class="item item-icon-right" ng-repeat="user in drivers">
+									<i class="icon ion-android-call"></i>
+									<h2 class="pretty-thai-text">{{user.firstname}} {{user.lastname}}</h2>
+									<p><small class="pretty-thai-text">ชื่อผู้ใช้งาน: {{user.username}}</small></p>
+									<p><small class="pretty-thai-text">โทรศัพท์: {{user.phone}}</small></p>
+								</a>
+								  
+								</div>
+								<p ng-if="caregiver.patients.length ==0" class="pretty-thai-text">ยังไม่มีคนไข้ในความดูแล</p>
+							</div>
+                        </div>	
                     </div>
                 </div>
             </div>
             <div style="padding:0.8em;">
-                <button style="float:right;" class="button button button-calm pretty-thai-text" ng-disabled="emCenterForm.$invalid" type="submit">
+                <button class="button button button-calm pretty-thai-text" ng-disabled="emCenterForm.$invalid" type="submit">
                 บันทึก
             </button>
-                <button style="float:right;margin-right:0.5em;" class="button button button-energized pretty-thai-text" ui-sref="app.emcenterList">
+                <button style="margin-right:0.5em;" class="button button button-energized pretty-thai-text" ui-sref="app.emcenterList">
                 ยกเลิก
             </button>
 
             </div>
         </form>
+		
     </ion-content>
 </ion-view>
