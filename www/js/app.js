@@ -45,11 +45,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
 		});
 		//$rootScope.isNotificationCalled = false;
 		push.on('notification', function ( data) {
-			console.log("onNotification");
+			console.log("onNotification "+JSON.stringify(data));
 			//$rootScope.isNotificationCalled is for preventing duplicating alarm from notification
 			//if($rootScope.isNotificationCalled == undefined ||  !$rootScope.isNotificationCalled){
 				//$rootScope.isNotificationCalled = true;
-				$cordovaNativeAudio.loop('alarmClock');
+				if(data.title.indexOf('Alert') != -1)
+						$cordovaNativeAudio.loop('alarmClock');
 				var msg = data.message;
 				console.log("message " + data.title + ": " + msg);
 				if(msg.indexOf("SOS Emergency Request") != -1){
@@ -250,6 +251,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material','ion
             'menuContent': {
 			templateUrl: 'templates/pages/caregiverList.html',
 			controller: 'CaregiverListCtrl'
+			},
+		}
+    })
+	
+	.state('app.emrequestList', {
+		url: '/emrequestList',
+		views: {
+            'menuContent': {
+			templateUrl: 'templates/pages/emrequestList.html',
+			controller: 'EmrequestListCtrl'
 			},
 		}
     })

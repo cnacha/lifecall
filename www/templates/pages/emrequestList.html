@@ -1,0 +1,39 @@
+<ion-view view-title="ประวัติเรียกบริการฉุกเฉิน">
+    <ion-content class="custom" ng-class="{expanded:isExpanded}"  padding="true" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
+
+        <ion-list can-swipe="true" ng-repeat="emrequest in emrequests">
+            <ion-item class="item item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)" >
+				<div class="row">
+					<div class="col col-10 col-center">
+						<div class="image-cropper-small">
+							<img  ng-if="emrequest.patient.photoFilePath !=null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
+							<img  ng-if="emrequest.patient.photoFilePath ==null" src="img/person.png">
+						</div>
+					</div>
+					<div class="col  dark-text col-center" >
+						<h2 class="pretty-thai-text"> {{emrequest.patient.firstname}} {{emrequest.patient.lastname}}</h2>
+						<h3 ng-if="emrequest.status == 'closed'" class="pretty-thai-text dark-text">{{statusTH(emrequest.status)}}</h3>
+						<h3 ng-if="emrequest.status != 'closed'" class="pretty-thai-text orange-text">{{statusTH(emrequest.status)}}</h3>
+					</div>
+					
+					<div class="col col-15 center-text" >
+							<span class="pretty-thai-text dark-text">เวลาที่เรียก</span><BR/>
+							<span class="big-text pretty-thai-text yellow-text">{{formatTime(emrequest.submitDate)}}</span><BR/>
+							<span class="pretty-thai-text dark-text">{{formatDate(emrequest.submitDate)}}</span><BR/>
+					</div>
+				</div>
+
+				<ion-option-button ng-click="getEmrequestLog(emrequest.id)" class="button-orange option-button">
+					<i class="icon ion-document-text"></i>
+				</ion-option-button>
+
+				<i class="icon stable ion-chevron-right"></i>
+            </ion-item>
+        </ion-list>
+		<ion-infinite-scroll 
+                     on-infinite="loadMoreData()"
+					  ng-if="!moredata"
+                     immediate-check="false"
+					  ></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

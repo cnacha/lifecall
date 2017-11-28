@@ -42,15 +42,18 @@
 		<div ng-if="caregiver.patients != null && caregiver.patients != undefined " class="col padding-top">
 				<h4 class="dark-text pretty-thai-text">รายชื่อคนไข้ในความดูแล</h4>
 			<div class="list">
-			<a class="item item-avatar" ng-repeat="patient in caregiver.patients">
+			<a class="item item-avatar item-icon-right" ng-repeat="patient in caregiver.patients">
 				<img  ng-if="patient.photoFilePath !=null" src='{{URL_PREFIX + patient.photoFileURI}}'>
 				<img  ng-if="patient.photoFilePath ==null" src="img/person.png">
 				<h2 class="pretty-thai-text">{{patient.firstname}} {{patient.lastname}}</h2>
 				<p><small class="pretty-thai-text">{{patient.disease}}</small></p>
+				<button class="button button-clear icon ion-minus-circled" ng-click="removePatient(patient.id,$index)"> </button>
 			</a>
-              
-            </div>
+            </div>		
 			<p ng-if="caregiver.patients.length ==0" class="pretty-thai-text">ยังไม่มีคนไข้ในความดูแล</p>
+			<button class="button icon ion-android-add button-positive  pretty-thai-text" ng-click="addPatient()">
+					เพิ่มคนไข้ในการดูแล
+			</button>
 		</div>
 	</div>
         

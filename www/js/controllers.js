@@ -94,7 +94,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		};
 		
-		$scope.phonecall = function (phonenumber) {
+		$rootScope.phonecall = function (phonenumber) {
 			var call = "tel:" + phonenumber;
 			document.location.href = call;
 		}
@@ -457,6 +457,8 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		
 		$scope.loadUsers = function(){
+			if($scope.emcenter == null)
+				return;
 			$scope.drivers = [];
 			$scope.callcenters = [];
 			$ionicLoading.show();
@@ -1056,10 +1058,26 @@ angular.module('starter.controllers', ['ionic'])
 				geocoder.geocode({
 					"address": $scope.patient.address
 				}, function(results) {
-					console.log(results[0].geometry.location.lat()); //LatLng
-					$scope.patient.homeLat = results[0].geometry.location.lat();
-					$scope.patient.homeLong = results[0].geometry.location.lng();
-					callService();
+				//	console.log(results);
+					if(results.length == 0){
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+								title: 'ผิดพลาด',
+								template: 'ข้อมลที่อยู่ไม่ถูกต้อง!'
+							});
+							alertPopup.then(function (res) {
+								return;
+							});
+					} else {
+					/*	for(var i=0;i< results.length; i++){
+							console.log(JSON.stringify(results[i]));
+						}
+					*/
+						console.log(results[0].geometry.location.lat()); //LatLng
+						$scope.patient.homeLat = results[0].geometry.location.lat();
+						$scope.patient.homeLong = results[0].geometry.location.lng();
+						callService();
+					}
 				});
 			} else {
 				callService();
@@ -1551,8 +1569,149 @@ angular.module('starter.controllers', ['ionic'])
 					$rootScope.errorPopUp(true);
 				});
 		}
+		
+		$scope.addPatient = function(){
+			$scope.data = {};
+			$scope.data.securityCode = "";
+			var myPopup = $ionicPopup.show({
+				 template: '<input type = "text" width="30" class="pretty-thai-text" ng-model = "data.securityCode">',
+				 title: 'เพิ่มคนไข้ในการดูแล',
+				 subTitle: 'โปรดระบุรหัส security code ของคนไข้',
+				 scope: $scope,
+					
+				 buttons: [
+					{ text: 'ยกเลิก' }, {
+					   text: 'บันทึก',
+					   type: 'button-positive',
+					   onTap: function(e) {
+						   console.log("input security code "+$scope.data.securityCode);
+						  if ($scope.data.securityCode == "") {
+							 e.preventDefault();
+						  } else {
+							 // find patient by security code
+							$http.get(URL_PREFIX+"/api/patient/securityCode/query.do?code="+$scope.data.securityCode)
+								.then(function(res){ 
+									$ionicLoading.hide();
+									console.log(JSON.stringify(res.data));
+									if(res.data.length != 0){
+										// save on location on server
+										$ionicLoading.show();
+										var headers = { 'Content-Type':'application/json' };
+										var carepermit = { patientId: res.data[0].id, careGiverId: $scope.caregiver.id};
+										$http.post(URL_PREFIX+"/api/carepermit/save.do",JSON.stringify(carepermit),headers).
+											success(function(data, status, headers, config) 
+											{
+												$ionicLoading.hide();
+												console.log("save result"+JSON.stringify(data));
+												$scope.caregiver.patients.push(res.data[0]);
+												
+											}).
+											error(function(data, status, headers, config) 
+											{
+												console.log("error"+JSON.stringify(data));
+												$ionicLoading.hide();
+												var alertPopup = $ionicPopup.alert({
+													title: 'เพิ่มคนไข้ในความดูแล',
+													template: 'เกิดความผิดพลาดในการเพิ่มคนไข้ในความดูแล'
+												});
+											});
+									} else{
+										var alertPopup = $ionicPopup.alert({
+													title: 'เพิ่มคนไข้ในความดูแล',
+													template: 'ไม่พบคนไข้ด้วยรหัส Security code นี้'
+												});
+										e.preventDefault();
+									}
+								}
+								, function(err) {
+										console.error('ERR', JSON.stringify(err));
+										$ionicLoading.hide();
+										e.preventDefault();
+								}); 
+						  }
+					   }
+					}
+				 ]
+			  });
+		}
+		
+		$scope.removePatient = function(patientId,index){
+			 var confirmPopup = $ionicPopup.confirm({
+				 title: 'ลบคนไข้ในการดูแล',
+				 template: 'คุณกำลังลบคนไข้ในการดูแล คุณแน่ใจหรือไม่?'
+			  });
+
+			  confirmPopup.then(function(res) {
+				 if(res) {
+					$ionicLoading.show();
+					$http.get(URL_PREFIX+"/api/caregiver/patient/delete.do?careGiverId="+$scope.caregiver.id+"&patientId="+patientId)
+							.then(function(res){ 
+								$ionicLoading.hide();
+								$scope.caregiver.patients.splice(index,1);
+							}
+							, function(err) {
+									console.error('ERR', JSON.stringify(err));
+									$ionicLoading.hide();
+									e.preventDefault();
+							}); 
+				 } 
+			  });
+			
+		}
 	})
 
+	.controller("EmrequestListCtrl", function ($scope, $state, $ionicLoading, methodFactory, $http, $ionicPopup, $rootScope) {
+		console.log("EmrequestListCtrl called");
+		
+		$scope.$parent.showHeader();
+		$scope.$parent.clearFabs();
+		$scope.isExpanded = true;
+		$scope.$parent.setExpanded(true);
+		$scope.$parent.setHeaderFab('right');
+		
+		$ionicLoading.show({
+			content: 'Loading',
+			animation: 'fade-in',
+			showBackdrop: true
+		});
+
+		$scope.listStart = 0;
+		$scope.listLength = 7;
+		$scope.emrequests = [];
+		$scope.loadData = function (listStart,listLength) {
+			console.log("loadData "+listStart+","+listLength);
+			if(listStart == 0)
+					$scope.emrequests = [];
+			$http.get(URL_PREFIX + "/api/emrequest/datatable/list.do?start="+listStart+"&length="+listLength)
+				.success(function (data, status) {
+					console.log(data);
+					$scope.emrequests = $scope.emrequests.concat(data.data);
+					if($scope.emrequests.length == data.recordsFiltered )
+						$scope.moredata = true;
+					else 
+						$scope.moredata = false;
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$ionicLoading.hide();
+				}).error(function (data, status) {
+					console.log("error" + JSON.stringify(data));
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$rootScope.errorPopUp(true);
+				});
+		}
+		
+		$scope.loadMoreData = function(){
+			$scope.listStart += $scope.listLength;
+			$scope.loadData($scope.listStart,$scope.listLength);
+		}
+		
+		$scope.getEmrequestLog = function (id) {
+			$state.go('app.emrequestLogList',{requestid: id});
+		}
+		
+		$scope.loadData(0,$scope.listLength);
+	})
+	
 	.controller('DashboardCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
 		$rootScope.showMenu = true;
 		// Set Header
@@ -1680,7 +1839,7 @@ angular.module('starter.controllers', ['ionic'])
 		**/
 	})
 	
-	.controller('HomeCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
+	.controller('HomeCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicPopover, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
 		//$rootScope.emrequest = $rootScope.emrequests[$stateParams.showIndex];
 		console.log('HomeCtrl '+$stateParams.id);
 		$scope.loading = true;
@@ -1691,12 +1850,13 @@ angular.module('starter.controllers', ['ionic'])
 				.success(function (data, status) {
 					$rootScope.emrequest = data;
 					console.log($rootScope.emrequest);
+					$scope.loadCaregiver();
 					$scope.getPatientLocation();
 				}).error(function (data, status) {
 					console.log("error" + JSON.stringify(data));
 					$rootScope.errorPopUp(true);
 				});
-				
+					
 		$rootScope.showMenu = true;
 		// Set Header
 		$scope.$parent.showHeader();
@@ -1720,6 +1880,18 @@ angular.module('starter.controllers', ['ionic'])
 		
 		$scope.getEmrequestLog = function (id) {
 			$state.go('app.emrequestLogList',{requestid: id});
+		}
+		
+		$scope.loadCaregiver = function(){
+			$http.get(URL_PREFIX + "/api/caregiver/patient/list.do?id=" + $rootScope.emrequest.patient.id)
+						.success(function (data, status) {
+							console.log("caregiver list" + JSON.stringify(data));
+							$rootScope.emrequest.patient.caregivers = data;
+							
+						}).error(function (data, status) {
+							console.log("error" + JSON.stringify(data));
+							$rootScope.errorPopUp(true);
+						});
 		}
 
 		// Call list patient's location log https://lgserv-176108.appspot.com/api/patient/locationlog/list.do?id=1000001
@@ -1868,6 +2040,7 @@ angular.module('starter.controllers', ['ionic'])
 						.success(function (data, status) {
 							$rootScope.loadEmrequestData();
 							$rootScope.emrequest.status = "responded";
+							$rootScope.emrequest.callCenterUser = userObj.username;
 							$ionicLoading.hide();
 							
 						}).error(function (data, status) {
@@ -1879,6 +2052,24 @@ angular.module('starter.controllers', ['ionic'])
 				});
 			}
 		}
+		
+		
+		
+		$scope.careGiverPopover = $ionicPopover.fromTemplateUrl('templates/caregiverSelect.html', {
+			scope: $rootScope,
+			animation : 'ease-out'
+		  }).then(function(popover) {
+			$scope.careGiverPopover = popover;
+		  });
+	
+		$scope.openCareGiverPopover = function($event){
+			console.log($scope.careGiverPopover);  
+			$scope.careGiverPopover.show($event);			  
+		}
+		
+		$rootScope.closeCareGiverPopover = function() {
+				$scope.careGiverPopover.hide();
+			  };
 		
 		 $scope.editLocationDetails = function() {
 			  $scope.data = {};

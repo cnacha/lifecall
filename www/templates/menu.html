@@ -44,6 +44,9 @@
 				<ion-item menu-close ui-sref="app.emcenterList" class="item-icon-left padding-top padding-bottom pretty-thai-text yellow4-background">
 					<i class="icon material-icons light-text shadow-text" style="font-weight: 100">&#xE548;</i>ศูนย์บริการฉุกเฉิน
 				</ion-item>
+				<ion-item menu-close ui-sref="app.emrequestList" class="item-icon-left padding-top padding-bottom pretty-thai-text " style="background: rgba(255, 255, 255, 0.7);">
+					<i class="icon material-icons light-text shadow-text" style="font-weight: 100">&#xE0D1;</i>ประวัติเรียกบริการฉุกเฉิน
+				</ion-item>
 				<ion-item menu-close ui-sref="app.distanceAlertList" class="item-icon-left padding-top padding-bottom pretty-thai-text " style="background: rgba(255, 255, 255, 0.6);">
 					<i class="icon material-icons light-text shadow-text" style="font-weight: 100">&#xE8B4;</i>แจ้งเตือนออกนอกบริเวณ
 				</ion-item>
@@ -56,6 +59,7 @@
 				<ion-item  ng-if="!listload" ng-click="getEmRequestDetail(emreq)" ng-repeat="emreq in emrequests" style="background: rgba(255, 255, 255, 0.9);padding-bottom:0.5em" class="item  no-margin item-icon-left pretty-thai-text">
 					<i ng-if="emreq.patient.currentStatus == 'alert'" class="icon material-icons red-text " style="font-weight: 100">&#xE90F;</i>
 					<i ng-if="emreq.patient.currentStatus == 'beware'" class="icon material-icons yellow-text " style="font-weight: 100">&#xE90F;</i>
+					<i ng-if="emreq.patient.currentStatus == 'normal'" class="icon material-icons calm " style="font-weight: 100">&#xE90F;</i>
 
 					<div class="row" style="padding-left: 5em;">
 						

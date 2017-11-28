@@ -40,7 +40,7 @@
 										<small>{{emrequest.patient.disease}}</small>
 									</div>
 								</div>
-								<span class="pretty-thai-text light-text" >รับเรื่องโดย {{emrequest.callCenterUser}}</span>
+								<span ng-if="emrequest.callCenterUser != null"  class="pretty-thai-text light-text" >รับเรื่องโดย {{emrequest.callCenterUser}}</span>
 								<h4 class="pretty-thai-text yellow-text shadow-text">{{statusTH(emrequest.status)}}</h4>
 								<span ng-if="emrequest.locationDetails != null" class="pretty-thai-text light-text" >สถานที่รับ {{emrequest.locationDetails}}</span>
 							</div>
@@ -52,7 +52,7 @@
 						<nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" class="pretty-thai-text"  active-icon="ion-close" resting-icon="ion-android-menu" toggling-method="click">
 							<button ng-click="phonecall('{{emrequest.patient.phone}}')" mfb-button icon="ion-android-call" class="pretty-thai-text" label="ติดต่อคนไข้"></button>
 							<button ng-click="editLocationDetails()" mfb-button icon="ion-android-locate" class="pretty-thai-text" label="ระบุตำแหน่ง"></button>
-							<button ng-click="" mfb-button icon="ion-android-people" class="pretty-thai-text" label="ติดต่อญาติ"></button>
+							<button ng-if="emrequest.patient.caregivers != undefined && emrequest.patient.caregivers.length >0" ng-click="openCareGiverPopover($event)" mfb-button icon="ion-android-people" class="pretty-thai-text" label="ติดต่อญาติ"></button>
 
 							<button ng-click="getEmrequestLog({{emrequest.id}})" mfb-button icon="ion-android-list" class="pretty-thai-text" label="รายงานสถานะ"></button>
 
