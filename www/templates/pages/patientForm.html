@@ -52,7 +52,7 @@
 							 </div>
                             <label class="item item-input item-floating-label" style="margin-bottom:1em;">
                                 <p class="input-label pretty-thai-text">โทรศัพท์</p>
-                                <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="patient.phone" ng-required="true">
+                                <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="patient.phone" ng-pattern="/^[0-9]{10,10}$/" ng-required="true">
 								<small class="pretty-thai-text  orange-text">โทรศัพท์ของสายรัดข้อมือ</small>
 								<BR/><small ng-if="patient.id != undefined && patient.id!=0" class="pretty-thai-text orange-text">Security Code: {{patient.securityCode}}</small>	
 							</label>

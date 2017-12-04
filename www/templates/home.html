@@ -76,7 +76,7 @@
 						<h5 class="pretty-thai-text white-text shadow-text" style="font-size:1.3em">{{emcenter.name}}</h5>
 						<small ng-if="emrequest.emDriverId != 0" class="pretty-thai-text dark-text ">คนขับ: {{emrequest.driver.firstname}} {{emrequest.driver.lastname}}</small><BR/>
 						<button ng-if="emrequest.emDriverId != 0" ng-click="phonecall('{{emrequest.driver.phone}}')" class="button button-small button-yellow1 pretty-thai-text ink">ติดต่อคนขับ</button>
-						<button ng-click="phonecall('{{emcenterNearby.phone}}')" class="button button-small  button-yellow2 pretty-thai-text ink">ติดต่อศูนย์</button>
+						<button ng-click="phonecall({{emcenter.phone}})" class="button button-small  button-yellow2 pretty-thai-text ink">ติดต่อศูนย์</button>
 					</div>
 					
 				</div>
