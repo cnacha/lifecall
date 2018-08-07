@@ -95,6 +95,7 @@ angular.module('starter.controllers', ['ionic'])
 		};
 		
 		$rootScope.phonecall = function (phonenumber) {
+			console.log(phonenumber);
 			var call = "tel:" + phonenumber;
 			document.location.href = call;
 		}
@@ -565,8 +566,8 @@ angular.module('starter.controllers', ['ionic'])
 		
 		$scope.$parent.showHeader();
 		$scope.$parent.clearFabs();
-		$scope.isExpanded = true;
-		$scope.$parent.setExpanded(true);
+		$scope.isExpanded = false;
+		$scope.$parent.setExpanded(false);
 		$scope.$parent.setHeaderFab('right');
 		
 		
@@ -729,9 +730,10 @@ angular.module('starter.controllers', ['ionic'])
 
 	.controller("PatientListCtrl", function ($scope, $state,$rootScope, $ionicLoading, $http, $ionicPopup) {
 
+		$rootScope.showMenu = true;
 		$scope.$parent.showHeader();
-		$scope.isExpanded = true;
-		$scope.$parent.setExpanded(true);
+		$scope.isExpanded = false;
+		$scope.$parent.setExpanded(false);
 		
 		// Reset patient data
 		window.localStorage.setItem('patient', null);
@@ -808,6 +810,32 @@ angular.module('starter.controllers', ['ionic'])
 					$ionicLoading.hide();
 					$rootScope.errorPopUp(true);
 				});
+		}
+		
+		$scope.createEmrequest = function(item){
+			
+			var confirmPopup = $ionicPopup.confirm({
+				 title: 'เรียกบริการฉุกเฉิน',
+				 template: 'คุณต้องการเรียกบริการฉุกเฉินสำหรับคนไข้ '+item.firstname+' แน่ใจหรือไม่?'
+			});
+
+			confirmPopup.then(function(res) {
+				 if(res) {
+					 var requestData = {};
+					requestData.patientId = item.id;
+					$ionicLoading.show();
+					$http.post(URL_PREFIX + "/api/emrequest/save.do", JSON.stringify(requestData)).
+							success(function (data, status) {
+								$ionicLoading.hide();
+								$rootScope.loadEmrequestData();
+							}).error(function (data, status) {
+								console.log("error" + JSON.stringify(data));
+								$ionicLoading.hide();
+								$rootScope.errorPopUp(true);
+							});
+				}
+			});
+			
 		}
 		
 		$scope.sendEmail = function(item){
@@ -1197,9 +1225,9 @@ angular.module('starter.controllers', ['ionic'])
 	.controller("DistanceAlertListCtrl", function ($scope, $state,$rootScope, $ionicLoading, $http, $ionicPopup) {
 
 		$scope.$parent.showHeader();
-		$scope.isExpanded = true;
+		$scope.isExpanded = false;
 		$scope.hasHeaderFabRight = false;
-		$scope.$parent.setExpanded(true);
+		$scope.$parent.setExpanded(false);
 
 		$ionicLoading.show({
 			content: 'Loading',
@@ -1400,8 +1428,8 @@ angular.module('starter.controllers', ['ionic'])
 		console.log("CaregiverListCtrl called");
 		
 		$scope.$parent.showHeader();
-		$scope.isExpanded = true;
-		$scope.$parent.setExpanded(true);
+		$scope.isExpanded = false;
+		$scope.$parent.setExpanded(false);
 
 		window.localStorage.setItem('caregiver', null);
 		$scope.caregivers = {};
@@ -1722,9 +1750,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.$parent.setHeaderFab(false);
 		$ionicNavBarDelegate.showBackButton(false);
 		$ionicSideMenuDelegate.canDragContent(true);
-		$timeout(function () {
+	/**	$timeout(function () {
 			$scope.$parent.hideHeader();
-		}, 0);
+		}, 0);**/
 		$rootScope.loadEmrequestData();
 		$ionicLoading.show();
 		$http.get(URL_PREFIX + "/api/summary/entity/count.do")
@@ -1842,6 +1870,7 @@ angular.module('starter.controllers', ['ionic'])
 	.controller('HomeCtrl', function ($scope, $rootScope, $window, $ionicHistory, $ionicNavBarDelegate, $ionicPopover, $ionicSideMenuDelegate, $stateParams, $ionicPopup, $http, $filter, $timeout, ionicMaterialMotion, $ionicLoading, ionicMaterialInk, $state) {
 		//$rootScope.emrequest = $rootScope.emrequests[$stateParams.showIndex];
 		console.log('HomeCtrl '+$stateParams.id);
+		
 		$scope.loading = true;
 		$rootScope.emrequest = null;
 		$scope.emcenter = null;
@@ -1868,9 +1897,10 @@ angular.module('starter.controllers', ['ionic'])
 		$ionicSideMenuDelegate.canDragContent(true);
 		
 		ionicMaterialInk.displayEffect();
-		$timeout(function () {
+	/**	$timeout(function () {
 			$scope.$parent.hideHeader();
 		}, 0);
+		**/
 		/**
 		$ionicLoading.show({
 			animation: 'fade-in',

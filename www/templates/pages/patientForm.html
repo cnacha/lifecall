@@ -17,7 +17,7 @@
                             <!-- Profile image -->    				
                         </div>
                         <div class="col" style="margin:1em;">
-							
+							<h3 ng-if="patient.id != undefined && patient.id!=0" class="pretty-thai-text orange-text">Security Code: {{patient.securityCode}}</h3>
                             <label class="item item-input item-floating-label" style="margin-bottom:1em;">
                                     <p class="input-label pretty-thai-text">ชื่อจริง</p>
                                     <input class="pretty-thai-text" type="text" placeholder="ชื่อจริง" ng-model="patient.firstname" ng-required="true">
@@ -51,10 +51,10 @@
                              </label>
 							 </div>
                             <label class="item item-input item-floating-label" style="margin-bottom:1em;">
-                                <p class="input-label pretty-thai-text">โทรศัพท์</p>
-                                <input class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="patient.phone" ng-pattern="/^[0-9]{10,10}$/" ng-required="true">
-								<small class="pretty-thai-text  orange-text">โทรศัพท์ของสายรัดข้อมือ</small>
-								<BR/><small ng-if="patient.id != undefined && patient.id!=0" class="pretty-thai-text orange-text">Security Code: {{patient.securityCode}}</small>	
+                                <p class="input-label pretty-thai-text">โทรศัพท์</p><small class="pretty-thai-text  orange-text">โทรศัพท์ของสายรัดข้อมือ</small>
+                                <input name="phone" class="pretty-thai-text" type="tel" placeholder="โทรศัพท์" ng-model="patient.phone" ng-pattern="/^\+[0-9]{11,11}$/" ng-required="true">
+								<p class="pretty-thai-text dark-text" ng-show="patientForm.phone.$error.pattern"> * โปรดกรอกเบอร์โทรศัพท์ให้ถูกต้อง เช่น +66812345678</p>
+								<BR/>	
 							</label>
                            
                             <label class="item item-input item-floating-label" style="margin-bottom:1em;">

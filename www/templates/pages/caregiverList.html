@@ -1,10 +1,11 @@
 <ion-view view-title="ผู้ดูแล">
 	<ion-nav-buttons side="left">
-   <nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" class="pretty-thai-text"  active-icon="ion-close" resting-icon="ion-plus-round" toggling-method="click">
-        <button ui-sref="app.caregiverForm" mfb-button icon="ion-person-add" class="pretty-thai-text" label="เพื่มข้อมูล"></button>
-        <button ng-click="showSearchPopup()" mfb-button icon="ion-search" class="pretty-thai-text" label="ค้นหา"></button>
-		<button ng-click="loadData(0,7)" mfb-button icon="ion-refresh" class="pretty-thai-text" label="โหลดใหม่"></button>
-    </nav>
+		<button class="button button-icon button-clear ion-android-menu" menu-toggle="left"></button>
+	   <nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" class="pretty-thai-text"  active-icon="ion-close" resting-icon="ion-plus-round" toggling-method="click">
+			<button ui-sref="app.caregiverForm" mfb-button icon="ion-person-add" class="pretty-thai-text" label="เพื่มข้อมูล"></button>
+			<button ng-click="showSearchPopup()" mfb-button icon="ion-search" class="pretty-thai-text" label="ค้นหา"></button>
+			<button ng-click="loadData(0,7)" mfb-button icon="ion-refresh" class="pretty-thai-text" label="โหลดใหม่"></button>
+		</nav>
 	</ion-nav-buttons>
     <ion-content padding="true" class="custom" ng-class="{expanded:isExpanded}" class="has-header" style="background: rgba(0, 0, 0, 0.1);">
 	

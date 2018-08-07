@@ -3,6 +3,7 @@
 body{
 	font-family: 'Prompt', sans-serif;
 }
+/*
 @media (min-width: 767px) {
   .menu-content {
     -webkit-transform: translate3d(270px, 0px, 0px) !important;
@@ -13,6 +14,7 @@ body{
     display: none;
   }
 }
+*/
 h1 {
     text-shadow: 0 1px 0px #000;
     font-size: 42px;
@@ -22,7 +24,7 @@ h2{
 }
 h3 {
 	color: #6e4e6a;
-	font-size: 18px;
+	font-size: 16px;
 }
 
 .shadow-text{
@@ -78,8 +80,8 @@ a:link,a:visited,a:hover,a:active  {
 	
 }
 .bar-shade1 {
-	background: url(../img/bg-106.jpg);
-  /*  background-color: #838383;*/
+/*	background: url(../img/bg-106.jpg);*/
+    background-color: #f8c03a;
     color: #fff; 
 	font-family: 'Prompt', sans-serif;
 }

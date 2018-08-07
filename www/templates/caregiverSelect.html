@@ -1,7 +1,7 @@
  <ion-popover-view >
         <ion-content>
 			<ion-list class="no-margin" ng-repeat="caregiver in emrequest.patient.caregivers" >
-				<ion-item ng-click="phonecall(caregiver.phone)" class="item-icon-left padding-top padding-bottom pretty-thai-text ">
+				<ion-item ng-click="phonecall('{{caregiver.phone}}')" class="item-icon-left padding-top padding-bottom pretty-thai-text ">
 					<i class="icon material-icons dark-text " style="font-weight: 100">&#xE0CD;</i>{{caregiver.firstname}} {{caregiver.lastname}}
 				</ion-item>
 			</ion-list>

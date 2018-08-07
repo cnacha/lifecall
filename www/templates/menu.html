@@ -6,11 +6,10 @@
 			<ion-nav-back-button class="no-text">
             </ion-nav-back-button>
 
-		<!--	<ion-nav-buttons side="left">
-				<button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="left">
+			<ion-nav-buttons side="left">
+				<button class="button button-icon button-clear ion-android-menu" menu-toggle="left">
                 </button>
 			</ion-nav-buttons>
-		-->
 		</ion-nav-bar>
 		<ion-nav-view name="fabContent"></ion-nav-view>
 		<ion-nav-view name="menuContent" class="expanded"></ion-nav-view>
@@ -56,7 +55,7 @@
 				<div ng-if="listload" class="padding center-text" style="background: rgba(255, 255, 255, 1)">
 					<img src="img/listloader.gif">
 				</div>
-				<ion-item  ng-if="!listload" ng-click="getEmRequestDetail(emreq)" ng-repeat="emreq in emrequests" style="background: rgba(255, 255, 255, 0.9);padding-bottom:0.5em" class="item  no-margin item-icon-left pretty-thai-text">
+				<ion-item menu-close ng-if="!listload" ng-click="getEmRequestDetail(emreq)" ng-repeat="emreq in emrequests" style="background: rgba(255, 255, 255, 0.9);padding-bottom:0.5em" class="item  no-margin item-icon-left pretty-thai-text">
 					<i ng-if="emreq.patient.currentStatus == 'alert'" class="icon material-icons red-text " style="font-weight: 100">&#xE90F;</i>
 					<i ng-if="emreq.patient.currentStatus == 'beware'" class="icon material-icons yellow-text " style="font-weight: 100">&#xE90F;</i>
 					<i ng-if="emreq.patient.currentStatus == 'normal'" class="icon material-icons calm " style="font-weight: 100">&#xE90F;</i>
@@ -67,13 +66,15 @@
 							{{emreq.patient.firstname}} {{emreq.patient.lastname}}
 							<h4 class="pretty-thai-text dark-text">{{statusTH(emreq.status)}}</h4>
 						</div>
+						<!--
 						<div class="col col-center right-text" ng-if="emreq.id == emrequest.id">
 							<i class="material-icons big-text dark-text">&#xE315;</i>
 						</div>
+						-->
 					</div>
 					
 				</ion-item>
-				<ion-item ui-sref="app.profile" class="item-icon-right padding-left padding-top padding-bottom light-text pretty-thai-text " >
+				<ion-item menu-close ui-sref="app.profile" class="item-icon-right padding-left padding-top padding-bottom light-text pretty-thai-text " >
 					<i class="icon material-icons light-text" style="font-weight: 100">&#xE8A6;</i>แก้ไขข้อมูลผู้ใช้
 				</ion-item>
 				<ion-item ui-sref="app.logout" class="item-icon-right padding-left padding-top padding-bottom light-text pretty-thai-text " >

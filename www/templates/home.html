@@ -1,7 +1,5 @@
 <ion-view view-title="Life Call">
-	<ion-nav-buttons side="left">
-  
-	</ion-nav-buttons>
+
 	<ion-content ng-class="{expanded:$scope.isExpanded} no-margin no-padding" style="background: url(img/bg-106.jpg) center; background-size: cover;vertical-align: middle;">
 		<div ng-if="loading" style="text-align:center; width: 80%;margin-left: 10%;margin-top: 10%">
 			<img  src="img/map.png" align="center" width="50%"><BR/>
@@ -18,18 +16,18 @@
 				<!-- Patient info -->
 				<div class="row box-inset-shadow round-box" style="background: rgba(0,0,0,0.3)">
 					<div class="col center-text" style="padding-top:1em;padding-left: 1em">
-					    <div class="image-cropper">
+					    <div class="image-cropper-small">
 						 <img  ng-if="emrequest.patient.photoFilePath != null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
 						<img  ng-if="emrequest.patient.photoFilePath == null" src="img/person.png">
 						</div>
 						<BR/>
 					</div>
-					<div class="col col-50">
+					<div class="col col-80">
 						<div class="row">
 							<div class="col">
-								<h3 class="light-text  pretty-thai-text">
+								<h4 class="light-text  pretty-thai-text">
 								{{emrequest.patient.firstname}} {{emrequest.patient.lastname}}
-								</h3>
+								</h4>
 								<div class="row pretty-thai-text">
 									<div class="col col-20 col-center">
 										<span ng-if="emrequest.patient.gender == 'male'"><i class="icon ion-male white-text shadow-text big-text"></i> </span>
@@ -48,14 +46,12 @@
 					</div>
 					<div class="col">
 						<div class="">
-						
 						<nav mfb-menu position="tr" effect="zoomin" label="ยกเลิก" class="pretty-thai-text"  active-icon="ion-close" resting-icon="ion-android-menu" toggling-method="click">
 							<button ng-click="phonecall('{{emrequest.patient.phone}}')" mfb-button icon="ion-android-call" class="pretty-thai-text" label="ติดต่อคนไข้"></button>
 							<button ng-click="editLocationDetails()" mfb-button icon="ion-android-locate" class="pretty-thai-text" label="ระบุตำแหน่ง"></button>
 							<button ng-if="emrequest.patient.caregivers != undefined && emrequest.patient.caregivers.length >0" ng-click="openCareGiverPopover($event)" mfb-button icon="ion-android-people" class="pretty-thai-text" label="ติดต่อญาติ"></button>
 
 							<button ng-click="getEmrequestLog({{emrequest.id}})" mfb-button icon="ion-android-list" class="pretty-thai-text" label="รายงานสถานะ"></button>
-
 						</nav>
 					<!--  <a ng-click="getEmrequestLog({{emrequest.id}})" class="button  button-block pretty-thai-text  button-yellow1 ink">รายงานสถานะ</a>
 					  <a ng-click="phonecall('{{emrequest.patient.phone}}')"  class="button button-block  pretty-thai-text button-yellow2 ink">บันทึกตำแหน่ง</a>
@@ -66,6 +62,7 @@
 					</div>
 					
 				</div>
+				
 
 				<div ng-if="emcenter != null || emcenter!= undefined" class="row  padding-left" >
 					<div class="col col-top col-20">
@@ -76,7 +73,7 @@
 						<h5 class="pretty-thai-text white-text shadow-text" style="font-size:1.3em">{{emcenter.name}}</h5>
 						<small ng-if="emrequest.emDriverId != 0" class="pretty-thai-text dark-text ">คนขับ: {{emrequest.driver.firstname}} {{emrequest.driver.lastname}}</small><BR/>
 						<button ng-if="emrequest.emDriverId != 0" ng-click="phonecall('{{emrequest.driver.phone}}')" class="button button-small button-yellow1 pretty-thai-text ink">ติดต่อคนขับ</button>
-						<button ng-click="phonecall({{emcenter.phone}})" class="button button-small  button-yellow2 pretty-thai-text ink">ติดต่อศูนย์</button>
+						<button ng-click="phonecall('{{emcenter.phone}}')" class="button button-small  button-yellow2 pretty-thai-text ink">ติดต่อศูนย์</button>
 					</div>
 					
 				</div>
@@ -95,7 +92,7 @@
 								</div>
 								<i class="icon ion-chevron-right light"></i>
 							</div>
-							<ion-option-button ng-click="phonecall({{emcenterNearby.phone}})" class="button-yellow1 option-button">
+							<ion-option-button ng-click="phonecall('{{emcenterNearby.phone}}')" class="button-yellow1 option-button">
 								<i class="icon ion-android-call"></i>
 							</ion-option-button>
 							<ion-option-button ng-click="assignrequest({{emcenterNearby.id}},'{{emcenterNearby.name}}')" class="button-yellow3 option-button">

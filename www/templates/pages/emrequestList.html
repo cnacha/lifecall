@@ -4,7 +4,7 @@
         <ion-list can-swipe="true" ng-repeat="emrequest in emrequests">
             <ion-item class="item item-icon-right pretty-thai-text no-margin item-content" style="margin-bottom:1em;border-radius:5px;box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)" >
 				<div class="row">
-					<div class="col col-10 col-center">
+					<div class="col col-20 col-center">
 						<div class="image-cropper-small">
 							<img  ng-if="emrequest.patient.photoFilePath !=null" src='{{URL_PREFIX + emrequest.patient.photoFileURI}}'>
 							<img  ng-if="emrequest.patient.photoFilePath ==null" src="img/person.png">
